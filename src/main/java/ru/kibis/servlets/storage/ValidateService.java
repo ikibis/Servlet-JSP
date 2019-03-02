@@ -1,12 +1,22 @@
 package ru.kibis.servlets.storage;
 
 import ru.kibis.servlets.model.User;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class ValidateService {
     private static ValidateService service;
-    private final Store memory = MemoryStore.getInstance();
-    //private final Store memory = DbStore.getInstance();
+    //private final Store memory = MemoryStore.getInstance();
+    private final Store memory = DbStore.getInstance();
+
+    public ValidateService() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy");
+        String date = sdf.format(new Date());
+        User root = new User("root", "root", "root", "root@root", date);
+        add(root);
+    }
 
     public static ValidateService getInstance() {
         if (service == null) {
@@ -34,7 +44,7 @@ public class ValidateService {
     }
 
     public void delete(int id) {
-        User user =  this.getUserById(id);
+        User user = this.getUserById(id);
         memory.delete(user);
     }
 
@@ -57,4 +67,16 @@ public class ValidateService {
         }
         return result;
     }
+
+    public boolean isCredentional(String login, String password) {
+        boolean result = false;
+        for (User user : this.findAll()) {
+            if (login.equals(user.getLogin()) && password.equals(user.getPassword())) {
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }
+
 }

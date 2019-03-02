@@ -26,7 +26,7 @@ public class UserUpdateServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         factory.action("update", req);
         resp.setContentType("text/html");
         resp.sendRedirect(req.getContextPath() + "/servlets");

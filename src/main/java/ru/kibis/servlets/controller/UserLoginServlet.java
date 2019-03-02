@@ -1,6 +1,5 @@
 package ru.kibis.servlets.controller;
 
-import ru.kibis.servlets.action.ActionFactory;
 import ru.kibis.servlets.storage.ValidateService;
 
 import javax.servlet.ServletException;
@@ -10,22 +9,28 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-public class UserServlet extends HttpServlet {
-    private ActionFactory factory = ActionFactory.getInstance();
+public class UserLoginServlet extends HttpServlet {
     private final ValidateService validateService = ValidateService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        resp.setContentType("text/html");
-        req.setAttribute("users", validateService.findAll());
-        req.getRequestDispatcher("/WEB-INF/view/users.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         resp.setContentType("text/html");
-        factory.action("delete", req);
-        resp.setContentType("text/html");
-        doGet(req, resp);
+        String login = req.getParameter("login");
+        String password = req.getParameter("password");
+        if (validateService.isCredentional(login, password)) {
+            HttpSession session = req.getSession();
+            synchronized (session) {
+                session.setAttribute("login", login);
+            }
+            resp.sendRedirect(String.format("%s/servlets", req.getContextPath()));
+        } else {
+            req.setAttribute("error", "Credential invalid");
+            doGet(req, resp);
+        }
     }
 }

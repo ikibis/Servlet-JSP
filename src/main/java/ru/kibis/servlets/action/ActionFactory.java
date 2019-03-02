@@ -31,8 +31,7 @@ public class ActionFactory {
     class UnknownAction implements Action {
 
         @Override
-        public boolean doAction(ValidateService validateService, HttpServletRequest req) {
-            return false;
+        public void doAction(ValidateService validateService, HttpServletRequest req) {
         }
 
     }
