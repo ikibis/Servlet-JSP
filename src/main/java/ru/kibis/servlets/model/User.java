@@ -3,7 +3,7 @@ package ru.kibis.servlets.model;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class User {
-    private final static AtomicInteger IDENTIFIER = new AtomicInteger(0);
+    private final static AtomicInteger IDENTIFIER = new AtomicInteger(1);
     private int id;
     private String name;
     private String login;
@@ -25,6 +25,15 @@ public class User {
         this.login = login;
         this.password = password;
         this.email = email;
+    }
+
+    public User(String id, String name, String login, String password, String email, String createDate) {
+        this.id = Integer.parseInt(id);
+        this.name = name;
+        this.login = login;
+        this.password = password;
+        this.email = email;
+        this.createDate = createDate;
     }
 
     public int getId() {

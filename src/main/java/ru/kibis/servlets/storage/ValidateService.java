@@ -5,8 +5,8 @@ import java.util.List;
 
 public class ValidateService {
     private static ValidateService service;
-    private final Store memory = MemoryStore.getInstance();
-    //private final Store memory = DbStore.getInstance();
+    //private final Store memory = MemoryStore.getInstance();
+    private final Store memory = DbStore.getInstance();
 
     public static ValidateService getInstance() {
         if (service == null) {
@@ -33,9 +33,9 @@ public class ValidateService {
         return result;
     }
 
-    public boolean delete(int id) {
+    public void delete(int id) {
         User user =  this.getUserById(id);
-        return memory.delete(user);
+        memory.delete(user);
     }
 
     public List<User> findAll() {
