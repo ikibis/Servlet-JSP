@@ -21,9 +21,4 @@ public class Delete implements Action {
         }
         return result;
     }
-
-    @Override
-    public List<User> doAction(ValidateService validateService) {
-        return null;
-    }
 }

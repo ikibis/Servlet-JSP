@@ -1,6 +1,7 @@
 package ru.kibis.servlets.controller;
 
 import ru.kibis.servlets.action.ActionFactory;
+import ru.kibis.servlets.storage.ValidateService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,11 +11,12 @@ import java.io.IOException;
 
 public class UserServlet extends HttpServlet {
     private ActionFactory factory = ActionFactory.getInstance();
+    private final ValidateService validateService = ValidateService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         resp.setContentType("text/html");
-        req.setAttribute("users", factory.action("findAll"));
+        req.setAttribute("users", validateService.findAll());
         req.getRequestDispatcher("/WEB-INF/view/users.jsp").forward(req, resp);
     }
 

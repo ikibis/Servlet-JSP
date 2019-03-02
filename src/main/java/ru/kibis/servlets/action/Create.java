@@ -27,11 +27,6 @@ public class Create implements Action {
         }
         return result;
     }
-
-    @Override
-    public List<User> doAction(ValidateService validateService) {
-        return null;
-    }
 }
 
 
