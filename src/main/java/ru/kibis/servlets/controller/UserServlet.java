@@ -1,6 +1,8 @@
 package ru.kibis.servlets.controller;
 
 import ru.kibis.servlets.action.ActionFactory;
+import ru.kibis.servlets.model.Role;
+import ru.kibis.servlets.model.User;
 import ru.kibis.servlets.storage.ValidateService;
 
 import javax.servlet.ServletException;
@@ -24,8 +26,22 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         resp.setContentType("text/html");
-        factory.action("delete", req);
-        resp.setContentType("text/html");
-        doGet(req, resp);
+        int id = Integer.valueOf(req.getParameter("id"));
+        HttpSession session = req.getSession();
+        if (validateService.findById(id)) {
+            User user = validateService.getUserById(id);
+            synchronized (session) {
+                String role = (String) session.getAttribute("role");
+                int userRoleRate = Role.valueOf(role).ordinal();
+                int userToUpdateRoleRate = Role.valueOf(user.getRole()).ordinal();
+                if (userRoleRate < userToUpdateRoleRate) {
+                    factory.action("delete", req);
+                    doGet(req, resp);
+                } else {
+                    req.setAttribute("error", "Not enough rights");
+                    doGet(req, resp);
+                }
+            }
+        }
     }
 }

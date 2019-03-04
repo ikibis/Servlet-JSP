@@ -1,5 +1,6 @@
 package ru.kibis.servlets.action;
 
+import ru.kibis.servlets.model.Role;
 import ru.kibis.servlets.model.User;
 import ru.kibis.servlets.storage.ValidateService;
 
@@ -19,7 +20,9 @@ public class Create implements Action {
                 map.get("name")[0],
                 map.get("login")[0],
                 map.get("password")[0],
-                map.get("email")[0], date);
+                map.get("email")[0],
+                date,
+                Role.valueOf(map.get("role")[0].toUpperCase()));
         validateService.add(user);
     }
 }

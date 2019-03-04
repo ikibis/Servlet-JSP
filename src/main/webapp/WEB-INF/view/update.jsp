@@ -14,6 +14,7 @@
         <th>login</th>
         <th>password</th>
         <th>email</th>
+        <th>role</th>
         <th>Button 1</th>
     </tr>
     <tr>
@@ -27,6 +28,10 @@
             <td><input required type=text name="login" value="<c:out value="${user.login}"></c:out>"></td>
             <td><input required type=text name="password" value="<c:out value="${user.password}"></c:out>"></td>
             <td><input required type=text name="email" value="<c:out value="${user.email}"></c:out>"></td>
+            <td>
+                <c:out value="${user.role}"></c:out>
+                <input required type=hidden name="role" value="<c:out value="${user.role}"></c:out>"></td>
+            </td>
             <td>
                 <button type="submit"> Save Changes</button>
             </td>

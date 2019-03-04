@@ -1,5 +1,6 @@
 package ru.kibis.servlets.storage;
 
+import ru.kibis.servlets.model.Role;
 import ru.kibis.servlets.model.User;
 
 import java.text.SimpleDateFormat;
@@ -14,7 +15,7 @@ public class ValidateService {
     public ValidateService() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy");
         String date = sdf.format(new Date());
-        User root = new User("root", "root", "root", "root@root", date);
+        User root = new User("root", "root", "root", "root@root", date, Role.ROOT);
         add(root);
     }
 
@@ -68,15 +69,14 @@ public class ValidateService {
         return result;
     }
 
-    public boolean isCredentional(String login, String password) {
-        boolean result = false;
+    public User isCredentional(String login, String password) {
+        User result = null;
         for (User user : this.findAll()) {
             if (login.equals(user.getLogin()) && password.equals(user.getPassword())) {
-                result = true;
+                result = user;
                 break;
             }
         }
         return result;
     }
-
 }

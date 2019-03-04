@@ -11,6 +11,7 @@
         <th>login</th>
         <th>password</th>
         <th>email</th>
+        <th>role</th>
         <th>Button 1</th>
     </tr>
     <tr>
@@ -20,6 +21,11 @@
             <td><input required type='text' name='login'></td>
             <td><input required type='text' name='password'></td>
             <td><input required type='text' name='email'></td>
+            <td><select name="role">
+                <option value="admin">Admin</option>
+                <option value="moderator">Moderator</option>
+                <option value="user">User</option>
+            </select></td>
             <td>
                 <button type='submit'> Create User</button>
             </td>

@@ -9,8 +9,16 @@
     <form action="${pageContext.servletContext.contextPath}/user_create_servlet" method="get">
         <button type="submit"> Add User</button>
     </form>
+    <form action="${pageContext.servletContext.contextPath}/exit" method="post">
+        <button type="submit"> Exit</button>
+    </form>
 </h2>
 <br/>
+<c:if test="${error != ''}">
+    <div style="background-color: red">
+        <c:out value="${error}"/>
+    </div>
+</c:if>
 <br/>
 <table style="border: 1px solid black" cellpadding="1" cellspacing="1" border="1">
     <tr>
@@ -19,6 +27,7 @@
         <th>login</th>
         <th>password</th>
         <th>email</th>
+        <th>role</th>
         <th>Button 1</th>
         <th>Button 2</th>
     </tr>
@@ -33,6 +42,8 @@
             <td><c:out value="${user.password}"></c:out>
             </td>
             <td><c:out value="${user.email}"></c:out>
+            </td>
+            <td><c:out value="${user.role}"></c:out>
             </td>
             <td>
                 <form action="${pageContext.servletContext.contextPath}/user_update_servlet" method="get">

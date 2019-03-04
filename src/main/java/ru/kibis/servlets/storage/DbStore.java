@@ -4,6 +4,7 @@ package ru.kibis.servlets.storage;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.kibis.servlets.model.Role;
 import ru.kibis.servlets.model.User;
 
 import java.sql.Connection;
@@ -14,7 +15,6 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class DbStore implements Store {
-
     private static final Logger LOGGER = LogManager.getLogger(DbStore.class.getName());
     private static final BasicDataSource SOURCE = new BasicDataSource();
     private static final DbStore INSTANCE = new DbStore();
@@ -44,7 +44,8 @@ public class DbStore implements Store {
                              + "login varchar(2000), "
                              + "password varchar(2000), "
                              + "email varchar(2000), "
-                             + "date varchar(2000));"
+                             + "date varchar(2000),"
+                             + "role varchar(2000));"
              )) {
             st.executeUpdate();
         } catch (SQLException e) {
@@ -58,7 +59,7 @@ public class DbStore implements Store {
         if (!this.duplicateCheck(user)) {
             try (Connection connection = SOURCE.getConnection();
                  PreparedStatement st = connection.prepareStatement(
-                         "insert into users(user_id, name, login, password, email, date) values(?, ?, ?, ?, ?, ?);"
+                         "insert into users(user_id, name, login, password, email, date, role) values(?, ?, ?, ?, ?, ?, ?);"
                  )) {
                 st.setString(1, String.valueOf(user.getId()));
                 st.setString(2, user.getName());
@@ -66,6 +67,7 @@ public class DbStore implements Store {
                 st.setString(4, user.getPassword());
                 st.setString(5, user.getEmail());
                 st.setString(6, user.getCreateDate());
+                st.setString(7, user.getRole());
                 st.executeUpdate();
                 result = true;
             } catch (SQLException e) {
@@ -129,7 +131,8 @@ public class DbStore implements Store {
                         rs.getString("login"),
                         rs.getString("password"),
                         rs.getString("email"),
-                        rs.getString("date")
+                        rs.getString("date"),
+                        Role.valueOf(rs.getString("role").toUpperCase())
                 ));
             }
         } catch (SQLException e) {
@@ -154,7 +157,8 @@ public class DbStore implements Store {
                     rs.getString("login"),
                     rs.getString("password"),
                     rs.getString("email"),
-                    rs.getString("date")
+                    rs.getString("date"),
+                    Role.valueOf(rs.getString("role").toUpperCase())
             );
         } catch (SQLException e) {
             LOGGER.error(e.getMessage(), e);

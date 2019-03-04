@@ -9,31 +9,43 @@ public class User {
     private String login;
     private String password;
     private String email;
+    private String role;
     private String createDate;
 
-    public User(String name, String login, String password, String email, String createDate) {
+    public User(String name, String login, String password, String email, String createDate, Role role) {
         this.id = IDENTIFIER.getAndIncrement();
         this.name = name;
         this.login = login;
         this.password = password;
         this.email = email;
+        this.role = String.valueOf(role);
         this.createDate = createDate;
     }
 
-    public User(String name, String login, String password, String email) {
+    public User(String name, String login, String password, String email, Role role) {
         this.name = name;
         this.login = login;
         this.password = password;
         this.email = email;
+        this.role = String.valueOf(role);
     }
 
-    public User(String id, String name, String login, String password, String email, String createDate) {
+    public User(String id, String name, String login, String password, String email, String createDate, Role role) {
         this.id = Integer.parseInt(id);
         this.name = name;
         this.login = login;
         this.password = password;
         this.email = email;
+        this.role = String.valueOf(role);
         this.createDate = createDate;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public int getId() {
