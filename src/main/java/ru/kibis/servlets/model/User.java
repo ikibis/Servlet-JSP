@@ -12,6 +12,10 @@ public class User {
     private String role;
     private String createDate;
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public User(String name, String login, String password, String email, String createDate, Role role) {
         this.id = IDENTIFIER.getAndIncrement();
         this.name = name;

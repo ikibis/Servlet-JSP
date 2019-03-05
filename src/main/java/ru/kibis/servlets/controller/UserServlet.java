@@ -17,14 +17,14 @@ public class UserServlet extends HttpServlet {
     private final ValidateService validateService = ValidateService.getInstance();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         resp.setContentType("text/html");
         req.setAttribute("users", validateService.findAll());
         req.getRequestDispatcher("/WEB-INF/view/users.jsp").forward(req, resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         resp.setContentType("text/html");
         int id = Integer.valueOf(req.getParameter("id"));
         HttpSession session = req.getSession();
