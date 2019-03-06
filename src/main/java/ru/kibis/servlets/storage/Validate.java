@@ -12,4 +12,8 @@ public interface Validate {
     public boolean update(User user, User udatedUser);
 
     public void delete(int id);
+
+    User findById(int id);
+
+    User isCredentional(String login, String password);
 }

@@ -12,7 +12,7 @@ public class Delete implements Action {
     public void doAction(ValidateService validateService, HttpServletRequest req) {
         final Map<String, String[]> map = req.getParameterMap();
         int idToDelete = Integer.valueOf(Objects.requireNonNull(map.get("id")[0]));
-        if (validateService.findById(idToDelete)) {
+        if (validateService.findById(idToDelete) != null) {
             validateService.delete(idToDelete);
         }
     }

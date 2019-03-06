@@ -14,7 +14,7 @@ public class ValidateStub implements Validate {
     @Override
     public boolean add(User user) {
         boolean result = false;
-        if(this.findByLogin(user.getLogin()) == null && this.findByEmail(user.getEmail()) == null) {
+        if (this.findByLogin(user.getLogin()) == null && this.findByEmail(user.getEmail()) == null) {
             user.setId(this.ids++);
             this.store.put(user.getId(), user);
             result = true;
@@ -91,5 +91,10 @@ public class ValidateStub implements Validate {
             }
         }
         return result;
+    }
+
+    @Override
+    public User isCredentional(String login, String password) {
+        return null;
     }
 }

@@ -3,6 +3,7 @@ package ru.kibis.servlets.controller;
 import ru.kibis.servlets.action.ActionFactory;
 import ru.kibis.servlets.model.Role;
 import ru.kibis.servlets.model.User;
+import ru.kibis.servlets.storage.Validate;
 import ru.kibis.servlets.storage.ValidateService;
 
 import javax.servlet.ServletException;
@@ -13,7 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class UserUpdateServlet extends HttpServlet {
-    private final ValidateService validateService = ValidateService.getInstance();
+    private final Validate validateService = ValidateService.getInstance();
     private ActionFactory factory = ActionFactory.getInstance();
 
     @Override
@@ -21,8 +22,8 @@ public class UserUpdateServlet extends HttpServlet {
         resp.setContentType("text/html");
         int id = Integer.valueOf(req.getParameter("id"));
         HttpSession session = req.getSession();
-        if (validateService.findById(id)) {
-            User user = validateService.getUserById(id);
+        User user = validateService.findById(id);
+        if (user != null) {
             synchronized (session) {
                 String role = (String) session.getAttribute("role");
                 int userRoleRate = Role.valueOf(role).ordinal();

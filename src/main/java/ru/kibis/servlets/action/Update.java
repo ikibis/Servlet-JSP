@@ -13,11 +13,9 @@ public class Update implements Action {
     @Override
     public void doAction(ValidateService validateService, HttpServletRequest req) {
         final Map<String, String[]> map = req.getParameterMap();
-        User user = null;
+
         int idToUpdate = Integer.valueOf(Objects.requireNonNull(map.get("id")[0]));
-        if (validateService.findById(idToUpdate)) {
-            user = validateService.getUserById(idToUpdate);
-        }
+        User user = validateService.findById(idToUpdate);
         User updatedUser = new User(map.get("name")[0],
                 map.get("login")[0],
                 map.get("password")[0],

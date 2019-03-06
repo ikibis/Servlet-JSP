@@ -1,6 +1,7 @@
 package ru.kibis.servlets.controller;
 
 import ru.kibis.servlets.model.User;
+import ru.kibis.servlets.storage.Validate;
 import ru.kibis.servlets.storage.ValidateService;
 
 import javax.servlet.ServletException;
@@ -11,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class UserLoginServlet extends HttpServlet {
-    private final ValidateService validateService = ValidateService.getInstance();
+    private final Validate validateService = ValidateService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {

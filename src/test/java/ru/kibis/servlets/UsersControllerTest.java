@@ -12,6 +12,7 @@ import static org.mockito.Mockito.when;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+
 import ru.kibis.servlets.controller.UserServlet;
 import ru.kibis.servlets.storage.Validate;
 import ru.kibis.servlets.storage.ValidateService;

@@ -19,7 +19,7 @@ public class ValidateService implements Validate {
         add(root);
     }
 
-    public static ValidateService getInstance() {
+    public static Validate getInstance() {
         if (service == null) {
             service = new ValidateService();
         }
@@ -45,7 +45,7 @@ public class ValidateService implements Validate {
     }
 
     public void delete(int id) {
-        User user = this.getUserById(id);
+        User user = this.findById(id);
         memory.delete(user);
     }
 
@@ -53,20 +53,8 @@ public class ValidateService implements Validate {
         return memory.findAll();
     }
 
-    public boolean findById(int id) {
-        boolean result = false;
-        if (memory.findById(id) != null) {
-            result = true;
-        }
-        return result;
-    }
-
-    public User getUserById(int id) {
-        User result = null;
-        if (memory.findById(id) != null) {
-            result = memory.findById(id);
-        }
-        return result;
+    public User findById(int id) {
+        return memory.findById(id);
     }
 
     public User isCredentional(String login, String password) {
