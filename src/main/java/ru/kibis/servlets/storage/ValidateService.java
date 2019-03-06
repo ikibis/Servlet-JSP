@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class ValidateService {
+public class ValidateService implements Validate {
     private static ValidateService service;
     //private final Store memory = MemoryStore.getInstance();
     private final Store memory = DbStore.getInstance();

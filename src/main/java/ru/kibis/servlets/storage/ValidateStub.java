@@ -12,38 +12,43 @@ public class ValidateStub implements Validate {
     private int ids = 0;
 
     @Override
-    public User add(User user) {
-        user.setId(this.ids++);
-        this.store.put(user.getId(), user);
-        return user;
-    }
-
-    @Override
-    public User update(User user, User updatedUser) {
-        if (!updatedUser.getName().equals(user.getName())) {
-            user.setName(updatedUser.getName());
-        }
-        if (!updatedUser.getLogin().equals(user.getLogin()) && this.findByLogin(updatedUser.getLogin()) == null) {
-            user.setLogin(updatedUser.getLogin());
-        }
-        if (!updatedUser.getEmail().equals(user.getEmail()) && this.findByEmail(updatedUser.getEmail()) == null) {
-            user.setEmail(updatedUser.getEmail());
-        }
-        if (!updatedUser.getPassword().equals(user.getPassword())) {
-            user.setPassword(updatedUser.getPassword());
-        }
-        return user;
-    }
-
-    @Override
-    public boolean delete(User user) {
+    public boolean add(User user) {
         boolean result = false;
-        int id = user.getId();
-        if (this.findById(id) != null) {
-            this.store.remove(id);
+        if(this.findByLogin(user.getLogin()) == null && this.findByEmail(user.getEmail()) == null) {
+            user.setId(this.ids++);
+            this.store.put(user.getId(), user);
             result = true;
         }
         return result;
+    }
+
+    @Override
+    public boolean update(User user, User updatedUser) {
+        boolean result = false;
+        if (!updatedUser.getName().equals(user.getName())) {
+            user.setName(updatedUser.getName());
+            result = true;
+        }
+        if (!updatedUser.getLogin().equals(user.getLogin()) && this.findByLogin(updatedUser.getLogin()) == null) {
+            user.setLogin(updatedUser.getLogin());
+            result = true;
+        }
+        if (!updatedUser.getEmail().equals(user.getEmail()) && this.findByEmail(updatedUser.getEmail()) == null) {
+            user.setEmail(updatedUser.getEmail());
+            result = true;
+        }
+        if (!updatedUser.getPassword().equals(user.getPassword())) {
+            user.setPassword(updatedUser.getPassword());
+            result = true;
+        }
+        return result;
+    }
+
+    @Override
+    public void delete(int id) {
+        if (this.findById(id) != null) {
+            this.store.remove(id);
+        }
     }
 
     @Override
