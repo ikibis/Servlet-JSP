@@ -15,11 +15,14 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import ru.kibis.servlets.controller.UserCreateServlet;
+import ru.kibis.servlets.controller.UserServlet;
 import ru.kibis.servlets.controller.UserUpdateServlet;
+import ru.kibis.servlets.model.User;
 import ru.kibis.servlets.storage.Validate;
 import ru.kibis.servlets.storage.ValidateService;
 import ru.kibis.servlets.storage.ValidateStub;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -53,12 +56,13 @@ public class UsersControllerTest {
     public void whenAddUserThenStoreIt() throws IOException {
         when(req.getParameterMap()).thenReturn(map);
         new UserCreateServlet().doPost(req, resp);
-        assertThat(validate.findAll().iterator().next().getId(), is(0));
-        assertThat(validate.findAll().iterator().next().getName(), is("ilya"));
-        assertThat(validate.findAll().iterator().next().getLogin(), is("Kibis"));
-        assertThat(validate.findAll().iterator().next().getPassword(), is("1224"));
-        assertThat(validate.findAll().iterator().next().getEmail(), is("ilya@ilya"));
-        assertThat(validate.findAll().iterator().next().getRole(), is("ADMIN"));
+        User user = validate.findAll().iterator().next();
+        assertThat(user.getId(), is(0));
+        assertThat(user.getName(), is("ilya"));
+        assertThat(user.getLogin(), is("Kibis"));
+        assertThat(user.getPassword(), is("1224"));
+        assertThat(user.getEmail(), is("ilya@ilya"));
+        assertThat(user.getRole(), is("ADMIN"));
         map.clear();
     }
 
@@ -74,35 +78,35 @@ public class UsersControllerTest {
         mapToUpdate.put("role", new String[]{"USER"});
         when(req.getParameterMap()).thenReturn(mapToUpdate);
         new UserUpdateServlet().doPost(req, resp);
-        assertThat(validate.findAll().iterator().next().getName(), is("ilyaNew"));
-        assertThat(validate.findAll().iterator().next().getLogin(), is("KibisNew"));
-        assertThat(validate.findAll().iterator().next().getPassword(), is("1224New"));
-        assertThat(validate.findAll().iterator().next().getEmail(), is("ilya@ilyaNew"));
-        assertThat(validate.findAll().iterator().next().getRole(), is("USER"));
+        User user = validate.findAll().iterator().next();
+        assertThat(user.getName(), is("ilyaNew"));
+        assertThat(user.getLogin(), is("KibisNew"));
+        assertThat(user.getPassword(), is("1224New"));
+        assertThat(user.getEmail(), is("ilya@ilyaNew"));
+        assertThat(user.getRole(), is("USER"));
         map.clear();
         mapToUpdate.clear();
     }
 
-   /* @Test
+    @Test
     public void whenDeleteUser() throws ServletException, IOException {
         this.whenAddUserThenStoreIt();
         Map<String, String[]> mapToDelete = new HashMap<>();
         mapToDelete.put("id", new String[]{"0"});
         when(req.getParameter("id")).thenReturn("0");
-        when(session.getAttribute("role")).thenReturn(mapToDelete);
-
         when(req.getParameterMap()).thenReturn(mapToDelete);
         new UserServlet().doPost(req, resp);
-        assertThat(validate.findAll().iterator().next().getName(), is(java.util.Optional.ofNullable(null)));
-    }*/
+        assertThat(validate.findAll().iterator().next().getName(), is(java.util.Optional.empty()));
+        mapToDelete.clear();
+    }
 
     @Test
     public void whenFindAllUsers() {
-
-        assertThat(validate.findAll().iterator().next().getName(), is("ilyaNew"));
-        assertThat(validate.findAll().iterator().next().getLogin(), is("KibisNew"));
-        assertThat(validate.findAll().iterator().next().getPassword(), is("1224New"));
-        assertThat(validate.findAll().iterator().next().getEmail(), is("ilya@ilyaNew"));
-        assertThat(validate.findAll().iterator().next().getRole(), is("USER"));
+        User user = validate.findAll().iterator().next();
+        assertThat(user.getName(), is("ilyaNew"));
+        assertThat(user.getLogin(), is("KibisNew"));
+        assertThat(user.getPassword(), is("1224New"));
+        assertThat(user.getEmail(), is("ilya@ilyaNew"));
+        assertThat(user.getRole(), is("USER"));
     }
 }
