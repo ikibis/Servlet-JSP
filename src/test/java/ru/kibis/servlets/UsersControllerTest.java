@@ -20,7 +20,6 @@ import ru.kibis.servlets.storage.Validate;
 import ru.kibis.servlets.storage.ValidateService;
 import ru.kibis.servlets.storage.ValidateStub;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -30,9 +29,9 @@ import java.util.Map;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(ValidateService.class)
 public class UsersControllerTest {
-    Validate validate ;
-    HttpServletRequest req ;
-    HttpServletResponse resp ;
+    Validate validate;
+    HttpServletRequest req;
+    HttpServletResponse resp;
     Map<String, String[]> map;
 
     @Before
@@ -51,7 +50,7 @@ public class UsersControllerTest {
     }
 
     @Test
-    public void whenAddUserThenStoreIt() throws ServletException, IOException {
+    public void whenAddUserThenStoreIt() throws IOException {
         when(req.getParameterMap()).thenReturn(map);
         new UserCreateServlet().doPost(req, resp);
         assertThat(validate.findAll().iterator().next().getId(), is(0));
@@ -60,10 +59,11 @@ public class UsersControllerTest {
         assertThat(validate.findAll().iterator().next().getPassword(), is("1224"));
         assertThat(validate.findAll().iterator().next().getEmail(), is("ilya@ilya"));
         assertThat(validate.findAll().iterator().next().getRole(), is("ADMIN"));
+        map.clear();
     }
 
     @Test
-    public void whenUpdateUserThenStoreIt() throws ServletException, IOException {
+    public void whenUpdateUserThenStoreIt() throws IOException {
         this.whenAddUserThenStoreIt();
         Map<String, String[]> mapToUpdate = new HashMap<>();
         mapToUpdate.put("id", new String[]{"0"});
@@ -79,6 +79,8 @@ public class UsersControllerTest {
         assertThat(validate.findAll().iterator().next().getPassword(), is("1224New"));
         assertThat(validate.findAll().iterator().next().getEmail(), is("ilya@ilyaNew"));
         assertThat(validate.findAll().iterator().next().getRole(), is("USER"));
+        map.clear();
+        mapToUpdate.clear();
     }
 
    /* @Test
@@ -95,7 +97,7 @@ public class UsersControllerTest {
     }*/
 
     @Test
-    public void whenFindAllUsers() throws ServletException, IOException {
+    public void whenFindAllUsers() {
 
         assertThat(validate.findAll().iterator().next().getName(), is("ilyaNew"));
         assertThat(validate.findAll().iterator().next().getLogin(), is("KibisNew"));
