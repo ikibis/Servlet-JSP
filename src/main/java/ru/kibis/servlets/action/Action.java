@@ -1,9 +1,9 @@
 package ru.kibis.servlets.action;
 
-import ru.kibis.servlets.storage.ValidateService;
+import ru.kibis.servlets.storage.Validate;
 
 import javax.servlet.http.HttpServletRequest;
 
 public interface Action {
-    void doAction(ValidateService validateService, HttpServletRequest req);
+    void doAction(Validate validateService, HttpServletRequest req);
 }

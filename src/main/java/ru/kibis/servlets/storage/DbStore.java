@@ -83,13 +83,14 @@ public class DbStore implements Store {
         if (!this.duplicateCheck(updatedUser)) {
             try (Connection connection = SOURCE.getConnection();
                  PreparedStatement st = connection.prepareStatement(
-                         "update users set name = ?, login = ?, password = ?, email = ? WHERE user_id = ?;"
+                         "update users set name = ?, login = ?, password = ?, email = ?, role = ? WHERE user_id = ?;"
                  )) {
                 st.setString(1, updatedUser.getName());
                 st.setString(2, updatedUser.getLogin());
                 st.setString(3, updatedUser.getPassword());
                 st.setString(4, updatedUser.getEmail());
-                st.setString(5, String.valueOf(user.getId()));
+                st.setString(5, updatedUser.getRole());
+                st.setString(6, String.valueOf(user.getId()));
                 st.executeUpdate();
 
                 result = true;

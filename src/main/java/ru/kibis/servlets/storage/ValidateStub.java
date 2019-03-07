@@ -11,6 +11,14 @@ public class ValidateStub implements Validate {
     private final Map<Integer, User> store = new HashMap<>();
     private int ids = 0;
 
+    private static class Holder {
+        private static final Validate INSTANCE = new ValidateStub();
+    }
+
+    public static Validate getInstance() {
+        return Holder.INSTANCE;
+    }
+
     @Override
     public boolean add(User user) {
         boolean result = false;
@@ -39,6 +47,10 @@ public class ValidateStub implements Validate {
         }
         if (!updatedUser.getPassword().equals(user.getPassword())) {
             user.setPassword(updatedUser.getPassword());
+            result = true;
+        }
+        if (!updatedUser.getRole().equals(user.getRole())) {
+            user.setRole(updatedUser.getRole());
             result = true;
         }
         return result;

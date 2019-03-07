@@ -1,5 +1,6 @@
 package ru.kibis.servlets.action;
 
+import ru.kibis.servlets.storage.Validate;
 import ru.kibis.servlets.storage.ValidateService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +16,7 @@ public class ActionFactory {
         return Holder.INSTANCE;
     }
 
-    private ValidateService service = new ValidateService();
+    private Validate service = ValidateService.getInstance();
     private Map<String, Action> actionMap = new HashMap<>();
 
     {
@@ -31,7 +32,7 @@ public class ActionFactory {
     class UnknownAction implements Action {
 
         @Override
-        public void doAction(ValidateService validateService, HttpServletRequest req) {
+        public void doAction(Validate validateService, HttpServletRequest req) {
         }
 
     }

@@ -2,7 +2,7 @@ package ru.kibis.servlets.action;
 
 import ru.kibis.servlets.model.Role;
 import ru.kibis.servlets.model.User;
-import ru.kibis.servlets.storage.ValidateService;
+import ru.kibis.servlets.storage.Validate;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
@@ -13,8 +13,9 @@ public class Create implements Action {
     private SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy");
 
     @Override
-    public void doAction(ValidateService validateService, HttpServletRequest req) {
+    public void doAction(Validate validateService, HttpServletRequest req) {
         final Map<String, String[]> map = req.getParameterMap();
+
         String date = sdf.format(new Date());
         User user = new User(
                 map.get("name")[0],

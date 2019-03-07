@@ -8,22 +8,22 @@ import java.util.Date;
 import java.util.List;
 
 public class ValidateService implements Validate {
-    private static ValidateService service;
     //private final Store memory = MemoryStore.getInstance();
     private final Store memory = DbStore.getInstance();
 
-    public ValidateService() {
+    private ValidateService() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy");
         String date = sdf.format(new Date());
         User root = new User("root", "root", "root", "root@root", date, Role.ROOT);
         add(root);
     }
 
+    private static class Holder {
+        private static final Validate INSTANCE = new ValidateService();
+    }
+
     public static Validate getInstance() {
-        if (service == null) {
-            service = new ValidateService();
-        }
-        return service;
+        return Holder.INSTANCE;
     }
 
     public boolean add(User user) {
