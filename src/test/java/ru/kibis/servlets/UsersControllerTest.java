@@ -47,17 +47,13 @@ public class UsersControllerTest {
     RequestDispatcher rd;
 
     @Before
-    public void beforeTests() {
+    public void beforeTests() throws IOException {
         validate = ValidateStub.getInstance();
         PowerMockito.mockStatic(ValidateService.class);
         Mockito.when(ValidateService.getInstance()).thenReturn(validate);
         req = mock(HttpServletRequest.class);
         resp = mock(HttpServletResponse.class);
         map = new HashMap<>();
-    }
-
-    @Test
-    public void whenAddUserThenStoreIt() throws IOException {
         map.put("name", new String[]{"ilya"});
         map.put("login", new String[]{"Kibis"});
         map.put("password", new String[]{"1224"});
@@ -65,6 +61,15 @@ public class UsersControllerTest {
         map.put("role", new String[]{"ADMIN"});
         when(req.getParameterMap()).thenReturn(map);
         new UserCreateServlet().doPost(req, resp);
+    }
+
+    @After
+    public void afterTests() {
+        validate.clean();
+    }
+
+    @Test
+    public void whenAddUserThenStoreIt() {
         User user = validate.findAll().iterator().next();
         assertThat(user.getId(), is(0));
         assertThat(user.getName(), is("ilya"));
@@ -72,11 +77,7 @@ public class UsersControllerTest {
         assertThat(user.getPassword(), is("1224"));
         assertThat(user.getEmail(), is("ilya@ilya"));
         assertThat(user.getRole(), is("ADMIN"));
-    }
-
-    @Test
-    public void whenFindAllUsers() {
-        assertThat(validate.findAll().iterator().hasNext(), is(true));
+        System.out.println("whenAddUserThenStoreIt");
     }
 
     @Test
@@ -97,11 +98,11 @@ public class UsersControllerTest {
         assertThat(user.getEmail(), is("ilya@ilyaNew"));
         assertThat(user.getRole(), is("USER"));
         mapToUpdate.clear();
-        validate.clean();
     }
 
     @Test
     public void whenDeleteUser() throws ServletException, IOException {
+        assertThat(validate.findAll().iterator().next().getLogin(), is("Kibis"));
         Map<String, String[]> mapToDelete = new HashMap<>();
         mapToDelete.put("id", new String[]{"0"});
         when(req.getParameter("id")).thenReturn("0");
@@ -111,8 +112,12 @@ public class UsersControllerTest {
         when(session.getAttribute("login")).thenReturn("Kibis");
         when(req.getRequestDispatcher("/WEB-INF/view/users.jsp")).thenReturn(rd);
         new UserServlet().doPost(req, resp);
-        assertThat(validate.findAll().iterator().hasNext(), is(false));
+        assertThat(validate.findByLogin("Kibis") == null, is(true));
         mapToDelete.clear();
-        validate.clean();
+    }
+
+    @Test
+    public void whenFindAllUsers() {
+        assertThat(validate.findAll().iterator().hasNext(), is(true));
     }
 }

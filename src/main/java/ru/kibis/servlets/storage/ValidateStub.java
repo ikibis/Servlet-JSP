@@ -32,7 +32,6 @@ public class ValidateStub implements Validate {
 
     @Override
     public boolean update(User user, User updatedUser) {
-
         boolean result = false;
         if (!updatedUser.getName().equals(user.getName())) {
             user.setName(updatedUser.getName());
@@ -113,5 +112,6 @@ public class ValidateStub implements Validate {
 
     public void clean() {
         this.store.clear();
+        this.ids = 0;
     }
 }

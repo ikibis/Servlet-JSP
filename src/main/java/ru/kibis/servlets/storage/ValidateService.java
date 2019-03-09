@@ -72,4 +72,9 @@ public class ValidateService implements Validate {
     public void clean() {
 
     }
+
+    @Override
+    public User findByLogin(String login) {
+        return null;
+    }
 }

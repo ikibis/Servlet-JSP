@@ -18,4 +18,6 @@ public interface Validate {
     User isCredentional(String login, String password);
 
     public void clean();
+
+    public User findByLogin(String login);
 }
