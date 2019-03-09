@@ -67,4 +67,9 @@ public class ValidateService implements Validate {
         }
         return result;
     }
+
+    @Override
+    public void clean() {
+
+    }
 }

@@ -32,9 +32,10 @@ public class UserServlet extends HttpServlet {
         User user = validateService.findById(id);
         if (user != null) {
             String role = (String) session.getAttribute("role");
+            String login = (String) session.getAttribute("login");
             int userRoleRate = Role.valueOf(role).ordinal();
             int userToUpdateRoleRate = Role.valueOf(user.getRole()).ordinal();
-            if (userRoleRate < userToUpdateRoleRate) {
+            if (userRoleRate < userToUpdateRoleRate || login.equals(user.getLogin())) {
                 factory.action("delete", req);
                 doGet(req, resp);
             } else {

@@ -28,10 +28,8 @@ public class UserLoginServlet extends HttpServlet {
         if (user != null) {
             HttpSession session = req.getSession();
             String role = user.getRole();
-            synchronized (session) {
-                session.setAttribute("login", login);
-                session.setAttribute("role", role);
-            }
+            session.setAttribute("login", login);
+            session.setAttribute("role", role);
             resp.sendRedirect(String.format("%s/servlets", req.getContextPath()));
         } else {
             req.setAttribute("error", "Credential invalid");

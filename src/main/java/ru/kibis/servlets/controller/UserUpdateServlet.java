@@ -24,17 +24,15 @@ public class UserUpdateServlet extends HttpServlet {
         HttpSession session = req.getSession();
         User user = validateService.findById(id);
         if (user != null) {
-            synchronized (session) {
-                String role = (String) session.getAttribute("role");
-                int userRoleRate = Role.valueOf(role).ordinal();
-                int userToUpdateRoleRate = Role.valueOf(user.getRole()).ordinal();
-                if (userRoleRate < userToUpdateRoleRate) {
-                    req.setAttribute("user", user);
-                    req.getRequestDispatcher("/WEB-INF/view/update.jsp").forward(req, resp);
-                } else {
-                    req.setAttribute("error", "Not enough rights");
-                    req.getRequestDispatcher(req.getContextPath() + "/servlets").forward(req, resp);
-                }
+            String role = (String) session.getAttribute("role");
+            int userRoleRate = Role.valueOf(role).ordinal();
+            int userToUpdateRoleRate = Role.valueOf(user.getRole()).ordinal();
+            if (userRoleRate < userToUpdateRoleRate) {
+                req.setAttribute("user", user);
+                req.getRequestDispatcher("/WEB-INF/view/update.jsp").forward(req, resp);
+            } else {
+                req.setAttribute("error", "Not enough rights");
+                req.getRequestDispatcher(req.getContextPath() + "/servlets").forward(req, resp);
             }
         }
     }

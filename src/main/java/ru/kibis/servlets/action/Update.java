@@ -15,7 +15,9 @@ public class Update implements Action {
         final Map<String, String[]> map = req.getParameterMap();
 
         int idToUpdate = Integer.valueOf(Objects.requireNonNull(map.get("id")[0]));
+
         User user = validateService.findById(idToUpdate);
+
         User updatedUser = new User(map.get("name")[0],
                 map.get("login")[0],
                 map.get("password")[0],
