@@ -14,7 +14,7 @@ public class ValidateService implements Validate {
     private ValidateService() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy");
         String date = sdf.format(new Date());
-        User root = new User("root", "root", "root", "root@root", date, Role.ROOT);
+        User root = new User("root", "root", "root", "root@root", date, Role.ROOT, "Russia", "Ekb");
         add(root);
     }
 

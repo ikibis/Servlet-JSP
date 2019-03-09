@@ -11,12 +11,14 @@ public class User {
     private String email;
     private String role;
     private String createDate;
+    private String country;
+    private String city;
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public User(String name, String login, String password, String email, String createDate, Role role) {
+    public User(String name, String login, String password, String email, String createDate, Role role, String country, String city) {
         this.id = IDENTIFIER.getAndIncrement();
         this.name = name;
         this.login = login;
@@ -24,17 +26,21 @@ public class User {
         this.email = email;
         this.role = String.valueOf(role);
         this.createDate = createDate;
+        this.country = country;
+        this.city = city;
     }
 
-    public User(String name, String login, String password, String email, Role role) {
+    public User(String name, String login, String password, String email, Role role, String country, String city) {
         this.name = name;
         this.login = login;
         this.password = password;
         this.email = email;
         this.role = String.valueOf(role);
+        this.country = country;
+        this.city = city;
     }
 
-    public User(String id, String name, String login, String password, String email, String createDate, Role role) {
+    public User(String id, String name, String login, String password, String email, String createDate, Role role, String country, String city) {
         this.id = Integer.parseInt(id);
         this.name = name;
         this.login = login;
@@ -42,6 +48,8 @@ public class User {
         this.email = email;
         this.role = String.valueOf(role);
         this.createDate = createDate;
+        this.country = country;
+        this.city = city;
     }
 
     public String getRole() {
@@ -90,5 +98,21 @@ public class User {
 
     public String getCreateDate() {
         return createDate;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 }

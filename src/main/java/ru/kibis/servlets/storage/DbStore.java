@@ -45,7 +45,9 @@ public class DbStore implements Store {
                              + "password varchar(2000), "
                              + "email varchar(2000), "
                              + "date varchar(2000),"
-                             + "role varchar(2000));"
+                             + "role varchar(2000),"
+                             + "country varchar(2000),"
+                             + "city varchar(2000));"
              )) {
             st.executeUpdate();
         } catch (SQLException e) {
@@ -59,7 +61,7 @@ public class DbStore implements Store {
         if (!this.duplicateCheck(user)) {
             try (Connection connection = SOURCE.getConnection();
                  PreparedStatement st = connection.prepareStatement(
-                         "insert into users(user_id, name, login, password, email, date, role) values(?, ?, ?, ?, ?, ?, ?);"
+                         "insert into users(user_id, name, login, password, email, date, role, country, city) values(?, ?, ?, ?, ?, ?, ?, ?, ?);"
                  )) {
                 st.setString(1, String.valueOf(user.getId()));
                 st.setString(2, user.getName());
@@ -68,6 +70,8 @@ public class DbStore implements Store {
                 st.setString(5, user.getEmail());
                 st.setString(6, user.getCreateDate());
                 st.setString(7, user.getRole());
+                st.setString(8, user.getCountry());
+                st.setString(9, user.getCity());
                 st.executeUpdate();
                 result = true;
             } catch (SQLException e) {
@@ -83,14 +87,16 @@ public class DbStore implements Store {
         if (!this.duplicateCheck(updatedUser)) {
             try (Connection connection = SOURCE.getConnection();
                  PreparedStatement st = connection.prepareStatement(
-                         "update users set name = ?, login = ?, password = ?, email = ?, role = ? WHERE user_id = ?;"
+                         "update users set name = ?, login = ?, password = ?, email = ?, role = ?, country = ?, city = ? WHERE user_id = ?;"
                  )) {
                 st.setString(1, updatedUser.getName());
                 st.setString(2, updatedUser.getLogin());
                 st.setString(3, updatedUser.getPassword());
                 st.setString(4, updatedUser.getEmail());
                 st.setString(5, updatedUser.getRole());
-                st.setString(6, String.valueOf(user.getId()));
+                st.setString(6, updatedUser.getCountry());
+                st.setString(7, updatedUser.getCity());
+                st.setString(8, String.valueOf(user.getId()));
                 st.executeUpdate();
 
                 result = true;
@@ -133,7 +139,9 @@ public class DbStore implements Store {
                         rs.getString("password"),
                         rs.getString("email"),
                         rs.getString("date"),
-                        Role.valueOf(rs.getString("role").toUpperCase())
+                        Role.valueOf(rs.getString("role").toUpperCase()),
+                        rs.getString("country"),
+                        rs.getString("city")
                 ));
             }
         } catch (SQLException e) {
@@ -159,7 +167,9 @@ public class DbStore implements Store {
                     rs.getString("password"),
                     rs.getString("email"),
                     rs.getString("date"),
-                    Role.valueOf(rs.getString("role").toUpperCase())
+                    Role.valueOf(rs.getString("role").toUpperCase()),
+                    rs.getString("country"),
+                    rs.getString("city")
             );
         } catch (SQLException e) {
             LOGGER.error(e.getMessage(), e);

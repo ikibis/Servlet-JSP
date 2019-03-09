@@ -23,7 +23,9 @@ public class Create implements Action {
                 map.get("password")[0],
                 map.get("email")[0],
                 date,
-                Role.valueOf(map.get("role")[0].toUpperCase()));
+                Role.valueOf(map.get("role")[0].toUpperCase()),
+                map.get("country")[0],
+                map.get("city")[0]);
         validateService.add(user);
     }
 }

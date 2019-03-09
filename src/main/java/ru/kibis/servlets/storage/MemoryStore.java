@@ -53,6 +53,14 @@ public class MemoryStore implements Store {
             user.setPassword(updatedUser.getPassword());
             result = true;
         }
+        if (!updatedUser.getCountry().equals(user.getCountry())) {
+            user.setCountry(updatedUser.getCountry());
+            result = true;
+        }
+        if (!updatedUser.getCity().equals(user.getCity())) {
+            user.setCity(updatedUser.getCity());
+            result = true;
+        }
         return result;
     }
 

@@ -6,5 +6,7 @@ create table if not exists users
   password varchar(2000),
   email    varchar(2000),
   date     varchar(2000),
-  role     varchar(2000)
+  role     varchar(2000),
+  country  varchar(2000),
+  city     varchar(2000)
 );
