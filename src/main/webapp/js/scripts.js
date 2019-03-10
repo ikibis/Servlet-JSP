@@ -71,9 +71,9 @@ function fillCities(country) {
         url: '/location',
         method: 'POST',
         data: "country=" + country,
-        complete: function(response) {
-            var result = "";
-            var cities = JSON.parse(response.responseText);
+        complete:function (response) {
+            var result = JSON.parse(response.responseText);
+            var cities = '';
             for (var i = 0; i < cities.length; i++) {
                 var city = cities[i];
                 result +=

@@ -55,28 +55,21 @@
             </select>
             </td>
             <td>
-
+                <label for="countries"></label>
                 <select id="countries" name="countries"
-                        onchange="var flag = this.options[this.selectedIndex]; fillCountries();">
-                    <option value=""></option>
-                    <c:forEach items="${countries}" var="state">
-                        <option value="${country.toString()}">${country.name}</option>
-                    </c:forEach>
+                        onchange="flag = this.options[this.selectedIndex];">
+                    <script>$(fillCountries());</script>
                 </select>
             </td>
             <td>
-
-                <select id="cities" name="cities"
-                    onchange="fillCities(flag);">
-                    <option value=""></option>
-                    <c:forEach items="${cities}">
-                    </c:forEach>
+                <label for="cities"></label>
+                <select id="cities" name="cities">
+                    <script>$(fillCities(flag));</script>
                 </select>
             </td>
-
             <td>
                 <input type="hidden" name="action" value="create">
-                <button type='submit'> Create User</button>
+                <button type='submit'> Create</button>
             </td>
         </form>
         </tbody>
@@ -84,4 +77,3 @@
 </div>
 </body>
 </html>
-

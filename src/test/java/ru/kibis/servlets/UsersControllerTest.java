@@ -79,8 +79,6 @@ public class UsersControllerTest {
         assertThat(user.getPassword(), is("1224"));
         assertThat(user.getContacts().getEmail(), is("ilya@ilya"));
         assertThat(user.getRole(), is("ADMIN"));
-        map.put("country", new String[]{"Russia"});
-        map.put("city", new String[]{"spb"});
         System.out.println("whenAddUserThenStoreIt");
     }
 
@@ -93,8 +91,8 @@ public class UsersControllerTest {
         mapToUpdate.put("password", new String[]{"1224New"});
         mapToUpdate.put("email", new String[]{"ilya@ilyaNew"});
         mapToUpdate.put("role", new String[]{"USER"});
-        map.put("country", new String[]{"Russia"});
-        map.put("city", new String[]{"spb"});
+        mapToUpdate.put("country", new String[]{"Russia"});
+        mapToUpdate.put("city", new String[]{"spb"});
         when(req.getParameterMap()).thenReturn(mapToUpdate);
         new UserUpdateServlet().doPost(req, resp);
         User user = validate.findAll().iterator().next();
@@ -103,8 +101,6 @@ public class UsersControllerTest {
         assertThat(user.getPassword(), is("1224New"));
         assertThat(user.getContacts().getEmail(), is("ilya@ilyaNew"));
         assertThat(user.getRole(), is("USER"));
-        map.put("country", new String[]{"Russia"});
-        map.put("city", new String[]{"spb"});
         mapToUpdate.clear();
     }
 
