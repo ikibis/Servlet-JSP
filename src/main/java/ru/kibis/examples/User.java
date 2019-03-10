@@ -1,16 +1,21 @@
 package ru.kibis.examples;
 
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 public class User {
     private String name;
     private String lastName;
     private String sex;
-    private String desc;
+    private String description;
 
-    public User(String name, String lastName, String sex, String desc) {
+    @JsonCreator
+    public User(@JsonProperty("name") String name, @JsonProperty("lastName") String lastName,
+                @JsonProperty("sex") String sex, @JsonProperty("description") String description) {
         this.name = name;
         this.lastName = lastName;
         this.sex = sex;
-        this.desc = desc;
+        this.description = description;
     }
 
     public String getName() {
@@ -38,10 +43,10 @@ public class User {
     }
 
     public String getDesc() {
-        return desc;
+        return description;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDesc(String description) {
+        this.description = description;
     }
 }

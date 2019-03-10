@@ -13,23 +13,24 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 public class JsonController extends HttpServlet {
-    private final Map<Integer, User> map = new ConcurrentHashMap<>();
+    private Map<Integer, User> map = new ConcurrentHashMap<>();
     int id = 0;
-
-    @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
-        req.setAttribute("users", map);
-        req.getRequestDispatcher("/index.html").forward(req, resp);
-    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/json");
-        BufferedReader reader = req.getReader();
+        StringBuilder buffer = new StringBuilder();
+        try (BufferedReader reader = req.getReader()) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                buffer.append(line);
+            }
+        }
         ObjectMapper mapper = new ObjectMapper();
-        User user = mapper.readValue(reader, User.class);
+        User user = mapper.readValue(new String(buffer), User.class);
         map.put(id++, user);
+        System.out.println(map.size());
         doGet(req, resp);
     }
 }
+
