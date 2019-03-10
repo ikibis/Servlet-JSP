@@ -10,11 +10,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class JsonController extends HttpServlet {
     private Map<Integer, User> map = new ConcurrentHashMap<>();
-    int id = 0;
+    private AtomicInteger id = new AtomicInteger(0);
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -28,8 +29,8 @@ public class JsonController extends HttpServlet {
         }
         ObjectMapper mapper = new ObjectMapper();
         User user = mapper.readValue(new String(buffer), User.class);
-        map.put(id++, user);
-        System.out.println(map.size());
+        map.put(id.getAndIncrement(), user);
+        System.out.println(map.size() + " " + id.get());
         doGet(req, resp);
     }
 }
