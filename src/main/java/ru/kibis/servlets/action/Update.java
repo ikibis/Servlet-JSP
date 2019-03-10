@@ -1,5 +1,6 @@
 package ru.kibis.servlets.action;
 
+import ru.kibis.servlets.model.Contacts;
 import ru.kibis.servlets.model.Role;
 import ru.kibis.servlets.model.User;
 import ru.kibis.servlets.storage.Validate;
@@ -13,18 +14,19 @@ public class Update implements Action {
     @Override
     public void doAction(Validate validateService, HttpServletRequest req) {
         final Map<String, String[]> map = req.getParameterMap();
-
         int idToUpdate = Integer.valueOf(Objects.requireNonNull(map.get("id")[0]));
-
         User user = validateService.findById(idToUpdate);
-
-        User updatedUser = new User(map.get("name")[0],
+        User updatedUser = new User(
                 map.get("login")[0],
                 map.get("password")[0],
-                map.get("email")[0],
                 Role.valueOf(map.get("role")[0].toUpperCase()),
-                map.get("country")[0],
-                map.get("city")[0]);
+                new Contacts(
+                        map.get("name")[0],
+                        map.get("email")[0],
+                        map.get("country")[0],
+                        map.get("city")[0]
+                )
+        );
         validateService.update(user, updatedUser);
     }
 }

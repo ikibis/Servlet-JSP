@@ -5,51 +5,39 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class User {
     private final static AtomicInteger IDENTIFIER = new AtomicInteger(1);
     private int id;
-    private String name;
     private String login;
     private String password;
-    private String email;
     private String role;
     private String createDate;
-    private String country;
-    private String city;
+    private Contacts contacts;
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public User(String name, String login, String password, String email, String createDate, Role role, String country, String city) {
+    public User(String login, String password, String createDate, Role role, Contacts contacts) {
         this.id = IDENTIFIER.getAndIncrement();
-        this.name = name;
         this.login = login;
         this.password = password;
-        this.email = email;
         this.role = String.valueOf(role);
         this.createDate = createDate;
-        this.country = country;
-        this.city = city;
+        this.contacts = contacts;
     }
 
-    public User(String name, String login, String password, String email, Role role, String country, String city) {
-        this.name = name;
+    public User(String login, String password, Role role, Contacts contacts) {
         this.login = login;
         this.password = password;
-        this.email = email;
         this.role = String.valueOf(role);
-        this.country = country;
-        this.city = city;
+        this.contacts = contacts;
     }
 
-    public User(String id, String name, String login, String password, String email, String createDate, Role role, String country, String city) {
+    public User(String id, String login, String password, String createDate, Role role, Contacts contacts) {
         this.id = Integer.parseInt(id);
-        this.name = name;
         this.login = login;
         this.password = password;
-        this.email = email;
         this.role = String.valueOf(role);
         this.createDate = createDate;
-        this.country = country;
-        this.city = city;
+        this.contacts = contacts;
     }
 
     public String getRole() {
@@ -62,14 +50,6 @@ public class User {
 
     public int getId() {
         return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getLogin() {
@@ -88,31 +68,11 @@ public class User {
         this.password = password;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getCreateDate() {
         return createDate;
     }
 
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
+    public Contacts getContacts() {
+        return contacts;
     }
 }

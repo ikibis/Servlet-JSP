@@ -1,25 +1,22 @@
-<html lang="en">
+<html>
 <head>
-    <title>Bootstrap Example</title>
     <%@ page contentType="text/html;charset=UTF-8" language="java" %>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-    <html>
-    <head>
-        <title>Users Store</title>
-        <style>
-            .topleft {
-                position: absolute;
-                top: 8px;
-                left: 16px;
-                font-size: 18px;
-            }
-        </style>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-    </head>
+    <title>Users Store</title>
+    <style>
+        .topleft {
+            position: absolute;
+            top: 8px;
+            left: 16px;
+            font-size: 18px;
+        }
+    </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
 <body>
 <div class="topleft">
     <h2>Users</h2>
@@ -63,19 +60,19 @@
             <tr>
                 <td><c:out value="${user.id}"></c:out>
                 </td>
-                <td><c:out value="${user.name}"></c:out>
+                <td><c:out value="${user.contacts.name}"></c:out>
                 </td>
                 <td><c:out value="${user.login}"></c:out>
                 </td>
                 <td><c:out value="${user.password}"></c:out>
                 </td>
-                <td><c:out value="${user.email}"></c:out>
+                <td><c:out value="${user.contacts.email}"></c:out>
                 </td>
                 <td><c:out value="${user.role}"></c:out>
                 </td>
-                <td><c:out value="${user.country}"></c:out>
+                <td><c:out value="${user.contacts.country}"></c:out>
                 </td>
-                <td><c:out value="${user.city}"></c:out>
+                <td><c:out value="${user.contacts.city}"></c:out>
                 </td>
                 <td>
                     <form action="${pageContext.servletContext.contextPath}/user_update_servlet" method="get">

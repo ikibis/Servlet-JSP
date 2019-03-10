@@ -1,5 +1,6 @@
 package ru.kibis.servlets.storage;
 
+import ru.kibis.servlets.model.Contacts;
 import ru.kibis.servlets.model.Role;
 import ru.kibis.servlets.model.User;
 
@@ -14,7 +15,9 @@ public class ValidateService implements Validate {
     private ValidateService() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy");
         String date = sdf.format(new Date());
-        User root = new User("root", "root", "root", "root@root", date, Role.ROOT, "Russia", "Ekb");
+        User root = new User("root", "root", date, Role.ROOT,
+                new Contacts("root", "root@root", "Russia", "Ekb")
+        );
         add(root);
     }
 
@@ -28,8 +31,8 @@ public class ValidateService implements Validate {
 
     public boolean add(User user) {
         boolean result = false;
-        if (user.getName() != null && user.getLogin() != null
-                && user.getPassword() != null && user.getEmail() != null) {
+        if (user.getContacts().getName() != null && user.getLogin() != null
+                && user.getPassword() != null && user.getContacts().getEmail() != null) {
             result = memory.add(user);
         }
         return result;
@@ -37,8 +40,8 @@ public class ValidateService implements Validate {
 
     public boolean update(User user, User udatedUser) {
         boolean result = false;
-        if (udatedUser.getName() != null && udatedUser.getLogin() != null
-                && udatedUser.getPassword() != null && udatedUser.getEmail() != null) {
+        if (udatedUser.getContacts().getName() != null && udatedUser.getLogin() != null
+                && udatedUser.getPassword() != null && udatedUser.getContacts().getEmail() != null) {
             result = memory.update(user, udatedUser);
         }
         return result;
@@ -76,5 +79,14 @@ public class ValidateService implements Validate {
     @Override
     public User findByLogin(String login) {
         return null;
+    }
+
+    public List<String> findCountries() {
+        return memory.getCountries();
+    }
+
+    @Override
+    public List<String> findCities(String country) {
+        return memory.getCities(country);
     }
 }

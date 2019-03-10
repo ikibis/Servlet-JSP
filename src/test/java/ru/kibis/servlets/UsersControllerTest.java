@@ -59,6 +59,8 @@ public class UsersControllerTest {
         map.put("password", new String[]{"1224"});
         map.put("email", new String[]{"ilya@ilya"});
         map.put("role", new String[]{"ADMIN"});
+        map.put("country", new String[]{"Russia"});
+        map.put("city", new String[]{"spb"});
         when(req.getParameterMap()).thenReturn(map);
         new UserCreateServlet().doPost(req, resp);
     }
@@ -72,11 +74,13 @@ public class UsersControllerTest {
     public void whenAddUserThenStoreIt() {
         User user = validate.findAll().iterator().next();
         assertThat(user.getId(), is(0));
-        assertThat(user.getName(), is("ilya"));
+        assertThat(user.getContacts().getName(), is("ilya"));
         assertThat(user.getLogin(), is("Kibis"));
         assertThat(user.getPassword(), is("1224"));
-        assertThat(user.getEmail(), is("ilya@ilya"));
+        assertThat(user.getContacts().getEmail(), is("ilya@ilya"));
         assertThat(user.getRole(), is("ADMIN"));
+        map.put("country", new String[]{"Russia"});
+        map.put("city", new String[]{"spb"});
         System.out.println("whenAddUserThenStoreIt");
     }
 
@@ -89,14 +93,18 @@ public class UsersControllerTest {
         mapToUpdate.put("password", new String[]{"1224New"});
         mapToUpdate.put("email", new String[]{"ilya@ilyaNew"});
         mapToUpdate.put("role", new String[]{"USER"});
+        map.put("country", new String[]{"Russia"});
+        map.put("city", new String[]{"spb"});
         when(req.getParameterMap()).thenReturn(mapToUpdate);
         new UserUpdateServlet().doPost(req, resp);
         User user = validate.findAll().iterator().next();
-        assertThat(user.getName(), is("ilyaNew"));
+        assertThat(user.getContacts().getName(), is("ilyaNew"));
         assertThat(user.getLogin(), is("KibisNew"));
         assertThat(user.getPassword(), is("1224New"));
-        assertThat(user.getEmail(), is("ilya@ilyaNew"));
+        assertThat(user.getContacts().getEmail(), is("ilya@ilyaNew"));
         assertThat(user.getRole(), is("USER"));
+        map.put("country", new String[]{"Russia"});
+        map.put("city", new String[]{"spb"});
         mapToUpdate.clear();
     }
 

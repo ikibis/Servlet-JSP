@@ -4,6 +4,7 @@ package ru.kibis.servlets.storage;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.kibis.servlets.model.Contacts;
 import ru.kibis.servlets.model.Role;
 import ru.kibis.servlets.model.User;
 
@@ -64,14 +65,14 @@ public class DbStore implements Store {
                          "insert into users(user_id, name, login, password, email, date, role, country, city) values(?, ?, ?, ?, ?, ?, ?, ?, ?);"
                  )) {
                 st.setString(1, String.valueOf(user.getId()));
-                st.setString(2, user.getName());
+                st.setString(2, user.getContacts().getName());
                 st.setString(3, user.getLogin());
                 st.setString(4, user.getPassword());
-                st.setString(5, user.getEmail());
+                st.setString(5, user.getContacts().getEmail());
                 st.setString(6, user.getCreateDate());
                 st.setString(7, user.getRole());
-                st.setString(8, user.getCountry());
-                st.setString(9, user.getCity());
+                st.setString(8, user.getContacts().getCountry());
+                st.setString(9, user.getContacts().getCity());
                 st.executeUpdate();
                 result = true;
             } catch (SQLException e) {
@@ -89,13 +90,13 @@ public class DbStore implements Store {
                  PreparedStatement st = connection.prepareStatement(
                          "update users set name = ?, login = ?, password = ?, email = ?, role = ?, country = ?, city = ? WHERE user_id = ?;"
                  )) {
-                st.setString(1, updatedUser.getName());
+                st.setString(1, updatedUser.getContacts().getName());
                 st.setString(2, updatedUser.getLogin());
                 st.setString(3, updatedUser.getPassword());
-                st.setString(4, updatedUser.getEmail());
+                st.setString(4, updatedUser.getContacts().getEmail());
                 st.setString(5, updatedUser.getRole());
-                st.setString(6, updatedUser.getCountry());
-                st.setString(7, updatedUser.getCity());
+                st.setString(6, updatedUser.getContacts().getCountry());
+                st.setString(7, updatedUser.getContacts().getCity());
                 st.setString(8, String.valueOf(user.getId()));
                 st.executeUpdate();
 
@@ -134,14 +135,16 @@ public class DbStore implements Store {
             while (rs.next()) {
                 users.add(new User(
                         rs.getString("user_id"),
-                        rs.getString("name"),
                         rs.getString("login"),
                         rs.getString("password"),
-                        rs.getString("email"),
                         rs.getString("date"),
                         Role.valueOf(rs.getString("role").toUpperCase()),
-                        rs.getString("country"),
-                        rs.getString("city")
+                        new Contacts(
+                                rs.getString("name"),
+                                rs.getString("email"),
+                                rs.getString("country"),
+                                rs.getString("city")
+                        )
                 ));
             }
         } catch (SQLException e) {
@@ -161,15 +164,17 @@ public class DbStore implements Store {
             ResultSet rs = st.executeQuery();
             rs.next();
             result = new User(
-                    String.valueOf(id),
-                    rs.getString("name"),
+                    rs.getString("user_id"),
                     rs.getString("login"),
                     rs.getString("password"),
-                    rs.getString("email"),
                     rs.getString("date"),
                     Role.valueOf(rs.getString("role").toUpperCase()),
-                    rs.getString("country"),
-                    rs.getString("city")
+                    new Contacts(
+                            rs.getString("name"),
+                            rs.getString("email"),
+                            rs.getString("country"),
+                            rs.getString("city")
+                    )
             );
         } catch (SQLException e) {
             LOGGER.error(e.getMessage(), e);
@@ -184,7 +189,7 @@ public class DbStore implements Store {
                      "select name from users where users.login = ? OR users.email = ?;"
              )) {
             users.setString(1, user.getLogin());
-            users.setString(2, user.getEmail());
+            users.setString(2, user.getContacts().getEmail());
             ResultSet rs = users.executeQuery();
             writeFlag = rs.next();
             rs.close();
@@ -192,5 +197,42 @@ public class DbStore implements Store {
             LOGGER.error(e.getMessage(), e);
         }
         return writeFlag;
+    }
+
+    @Override
+    public List<String> getCountries() {
+        List<String> countries = new CopyOnWriteArrayList<>();
+        try (Connection connection = SOURCE.getConnection();
+             PreparedStatement ps = connection.prepareStatement(
+                     "select country_name from country;"
+             )) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                countries.add(rs.getString("country_name"));
+            }
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+        return countries;
+    }
+
+    @Override
+    public List<String> getCities(String country) {
+        List<String> cities = new CopyOnWriteArrayList<>();
+        try (Connection connection = SOURCE.getConnection();
+             PreparedStatement ps = connection.prepareStatement(
+                     "select city_name from city where country_id = ("
+                             + "select id from country where country_name = ?"
+                             + ");"
+             )) {
+            ps.setString(1, country);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                cities.add(rs.getString("city_name"));
+            }
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+        return cities;
     }
 }

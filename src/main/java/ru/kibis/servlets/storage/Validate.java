@@ -20,4 +20,8 @@ public interface Validate {
     public void clean();
 
     public User findByLogin(String login);
+
+    public List<String> findCountries();
+
+    public List<String> findCities(String country);
 }
