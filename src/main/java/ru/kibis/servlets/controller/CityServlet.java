@@ -11,18 +11,16 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-public class LocationServlet extends HttpServlet {
+public class CityServlet extends HttpServlet {
     private final Validate validateService = ValidateService.getInstance();
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String country = req.getParameter("country");
+        System.out.println(country);
         List<String> result;
-        if (country == null) {
-            result = validateService.findCountries();
-        } else {
-            result = validateService.findCities(country);
-        }
+        result = validateService.findCities(country);
+        System.out.println(result);
         ObjectMapper mapper = new ObjectMapper();
         String jsonInString = mapper.writeValueAsString(result);
         resp.setContentType("text/json");

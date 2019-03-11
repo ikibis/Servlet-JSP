@@ -61,14 +61,21 @@
         <url-pattern>/json</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>LocationServlet</servlet-name>
-        <servlet-class>ru.kibis.servlets.controller.LocationServlet</servlet-class>
+        <servlet-name>CountryServlet</servlet-name>
+        <servlet-class>ru.kibis.servlets.controller.CountryServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>LocationServlet</servlet-name>
-        <url-pattern>/location</url-pattern>
+        <servlet-name>CountryServlet</servlet-name>
+        <url-pattern>/country</url-pattern>
     </servlet-mapping>
-
+    <servlet>
+        <servlet-name>CityServlet</servlet-name>
+        <servlet-class>ru.kibis.servlets.controller.CityServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CityServlet</servlet-name>
+        <url-pattern>/city</url-pattern>
+    </servlet-mapping>
 
 </web-app>
 

@@ -1,3 +1,5 @@
+var country_selected = false;
+
 function validate() {
     let result = true;
     let name = $('#name').val();
@@ -50,9 +52,9 @@ function validateLogin() {
 
 function fillCountries() {
     $.ajax({
-        url: '/location',
+        url: '/country',
         method: 'POST',
-        complete: function(response) {
+        complete: function (response) {
             var result = "";
             var countries = JSON.parse(response.responseText);
             for (var i = 0; i < countries.length; i++) {
@@ -60,18 +62,17 @@ function fillCountries() {
                 result +=
                     "<option value=\"" + country + "\">" + country + "</option>";
             }
-            var table = document.getElementById("countries");
-            table.innerHTML = result;
+            $('#country_name').html('<option value="0">-Выберите страну-</option>' + result);
         }
     });
 }
 
 function fillCities(country) {
     $.ajax({
-        url: '/location',
+        url: '/city',
         method: 'POST',
         data: "country=" + country,
-        complete:function (response) {
+        complete: function (response) {
             var result = JSON.parse(response.responseText);
             var cities = '';
             for (var i = 0; i < cities.length; i++) {
@@ -79,8 +80,9 @@ function fillCities(country) {
                 result +=
                     "<option value=\"" + city + "\">" + city + "</option>";
             }
-            var table = document.getElementById("cities");
-            table.innerHTML = result;
+            $('#city_name').html('<option value="0">-Выберите город-</option>' + result);
         }
     });
 }
+
+

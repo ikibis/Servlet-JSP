@@ -9,9 +9,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <script src="<c:url value="/js/scripts.js" />"></script>
-    <script>
-        var flag = '';
-    </script>
 </head>
 <body>
 <br>
@@ -55,16 +52,25 @@
             </select>
             </td>
             <td>
-                <label for="countries"></label>
-                <select id="countries" name="countries"
-                        onchange="flag = this.options[this.selectedIndex];">
+                <label for="country_name"></label>
+                <select id="country_name" name="country_name" onchange="
+                $(alert(country_selected));
+                $(country_selected = true)
+                $(alert(country_selected));
+                    ">
                     <script>$(fillCountries());</script>
                 </select>
             </td>
             <td>
-                <label for="cities"></label>
-                <select id="cities" name="cities">
-                    <script>$(fillCities(flag));</script>
+                <label for="city_name"></label>
+                <select id="city_name" name="city_name">
+                    <script>
+                        $(alert('city_name ' + country_selected));
+                        if (country_selected == true) {
+                            fillCities($('#country_name').val());
+                            country_selected = false;
+                        }
+                    </script>
                 </select>
             </td>
             <td>
