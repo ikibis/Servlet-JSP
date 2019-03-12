@@ -1,5 +1,3 @@
-var country_selected = false;
-
 function validate() {
     let result = true;
     let name = $('#name').val();
@@ -24,11 +22,11 @@ function validate() {
         result = false;
         alert('Please, enter your Email');
     }
-    if (country == '') {
+    if (country == '0') {
         result = false;
         alert('Please, enter your Country');
     }
-    if (city == '') {
+    if (city == '0') {
         result = false;
         alert('Please, enter your City');
     }
@@ -50,7 +48,7 @@ function validateLogin() {
     return result;
 }
 
-function fillCountries() {
+function fillCountriesCreate() {
     $.ajax({
         url: '/country',
         method: 'POST',
@@ -62,27 +60,76 @@ function fillCountries() {
                 result +=
                     "<option value=\"" + country + "\">" + country + "</option>";
             }
-            $('#country_name').html('<option value="0">-Выберите страну-</option>' + result);
+            $('#country').html('<option value="0">-Выберите страну-</option>' + result);
         }
     });
 }
 
-function fillCities(country) {
+function fillCitiesCreate(country) {
     $.ajax({
         url: '/city',
         method: 'POST',
         data: "country=" + country,
         complete: function (response) {
-            var result = JSON.parse(response.responseText);
-            var cities = '';
+            var result = "";
+            var cities = JSON.parse(response.responseText);
             for (var i = 0; i < cities.length; i++) {
                 var city = cities[i];
                 result +=
                     "<option value=\"" + city + "\">" + city + "</option>";
             }
-            $('#city_name').html('<option value="0">-Выберите город-</option>' + result);
+            $('#city').html('<option value="0">-Выберите город-</option>' + result);
         }
     });
 }
 
+function create() {
+    if (validate() == true) {
+        $('#create_user').submit();
+    } else {
+        false;
+    }
+}
 
+function fillCountriesUpdate() {
+    $.ajax({
+        url: '/country',
+        method: 'POST',
+        complete: function (response) {
+            var result = "";
+            var countries = JSON.parse(response.responseText);
+            for (var i = 0; i < countries.length; i++) {
+                var country = countries[i];
+                result +=
+                    "<option value=\"" + country + "\">" + country + "</option>";
+            }
+            $('#country_update').html('<option value="0">-Выберите страну-</option>' + result);
+        }
+    });
+}
+
+function fillCitiesUpdate(country) {
+    $.ajax({
+        url: '/city',
+        method: 'POST',
+        data: "country=" + country,
+        complete: function (response) {
+            var result = "";
+            var cities = JSON.parse(response.responseText);
+            for (var i = 0; i < cities.length; i++) {
+                var city = cities[i];
+                result +=
+                    "<option value=\"" + city + "\">" + city + "</option>";
+            }
+            $('#city_update').html('<option value="0">-Выберите город-</option>' + result);
+        }
+    });
+}
+
+function update() {
+    if (validate() == true) {
+        $('#update_user').submit();
+    } else {
+        false;
+    }
+}

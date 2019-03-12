@@ -59,7 +59,7 @@ public class DbStore implements Store {
     @Override
     public boolean add(User user) {
         boolean result = false;
-        if (!this.duplicateCheck(user)) {
+        if (this.duplicateCheck(user) == 0) {
             try (Connection connection = SOURCE.getConnection();
                  PreparedStatement st = connection.prepareStatement(
                          "insert into users(user_id, name, login, password, email, date, role, country, city) values(?, ?, ?, ?, ?, ?, ?, ?, ?);"
@@ -85,7 +85,7 @@ public class DbStore implements Store {
     @Override
     public boolean update(User user, User updatedUser) {
         boolean result = false;
-        if (!this.duplicateCheck(updatedUser)) {
+        if (this.duplicateCheck(updatedUser) <= 1) {
             try (Connection connection = SOURCE.getConnection();
                  PreparedStatement st = connection.prepareStatement(
                          "update users set name = ?, login = ?, password = ?, email = ?, role = ?, country = ?, city = ? WHERE user_id = ?;"
@@ -99,7 +99,6 @@ public class DbStore implements Store {
                 st.setString(7, updatedUser.getContacts().getCity());
                 st.setString(8, String.valueOf(user.getId()));
                 st.executeUpdate();
-
                 result = true;
             } catch (SQLException e) {
                 LOGGER.error(e.getMessage(), e);
@@ -182,8 +181,8 @@ public class DbStore implements Store {
         return result;
     }
 
-    private boolean duplicateCheck(User user) {
-        boolean writeFlag = false;
+    private int duplicateCheck(User user) {
+        int count = 0;
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement users = connection.prepareStatement(
                      "select name from users where users.login = ? OR users.email = ?;"
@@ -191,12 +190,15 @@ public class DbStore implements Store {
             users.setString(1, user.getLogin());
             users.setString(2, user.getContacts().getEmail());
             ResultSet rs = users.executeQuery();
-            writeFlag = rs.next();
+            while (rs.next()) {
+                count++;
+            }
             rs.close();
         } catch (SQLException e) {
             LOGGER.error(e.getMessage(), e);
         }
-        return writeFlag;
+        System.out.println(count);
+        return count;
     }
 
     @Override

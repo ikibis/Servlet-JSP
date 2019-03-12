@@ -29,8 +29,7 @@
         </tr>
         </thead>
         <tbody>
-        <form action="${pageContext.servletContext.contextPath}/user_create_servlet" method="post"
-              onsubmit="validate()">
+        <form id="create_user" action="${pageContext.servletContext.contextPath}/user_create_servlet" method="post">
             <td>
                 <label for="name"></label><input class="form-control input-sm" id="name" type="text" name='name'>
             </td>
@@ -52,30 +51,25 @@
             </select>
             </td>
             <td>
-                <label for="country_name"></label>
-                <select id="country_name" name="country_name" onchange="
-                $(alert(country_selected));
-                $(country_selected = true)
-                $(alert(country_selected));
-                    ">
-                    <script>$(fillCountries());</script>
+                <label for="country"></label>
+                <select id="country" name="country">
+                    <script>$(fillCountriesCreate());</script>
                 </select>
             </td>
             <td>
-                <label for="city_name"></label>
-                <select id="city_name" name="city_name">
+                <label for="city"></label>
+                <select id="city" name="city">
                     <script>
-                        $(alert('city_name ' + country_selected));
-                        if (country_selected == true) {
-                            fillCities($('#country_name').val());
-                            country_selected = false;
-                        }
+                        fillCitiesCreate($('#country').val());
+                        $('#country').change(function () {
+                            fillCitiesCreate($('#country').val());
+                        });
                     </script>
                 </select>
             </td>
             <td>
                 <input type="hidden" name="action" value="create">
-                <button type='submit'> Create</button>
+                <button type='button' onclick="create()"> Create</button>
             </td>
         </form>
         </tbody>

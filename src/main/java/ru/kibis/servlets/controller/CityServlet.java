@@ -17,10 +17,8 @@ public class CityServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String country = req.getParameter("country");
-        System.out.println(country);
         List<String> result;
         result = validateService.findCities(country);
-        System.out.println(result);
         ObjectMapper mapper = new ObjectMapper();
         String jsonInString = mapper.writeValueAsString(result);
         resp.setContentType("text/json");

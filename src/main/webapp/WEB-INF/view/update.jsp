@@ -29,8 +29,7 @@
         </tr>
         </thead>
         <tbody>
-        <form action="${pageContext.servletContext.contextPath}/user_update_servlet" method="post"
-              onsubmit="validate()">
+        <form id="update_user" action="${pageContext.servletContext.contextPath}/user_update_servlet" method="post">
             <td>
                 <c:out value="${user.id}"></c:out>
             </td>
@@ -60,20 +59,26 @@
                 <input required type=hidden name="role" value="<c:out value="${user.role}"></c:out>">
             </td>
             <td>
-                <label for="country"></label>
-                <input class="form-control input-sm" id="country" type="text"
-                       name='country'
-                       value="<c:out value="${user.contacts.country}"></c:out>">
+                <label for="country_update"></label>
+                <select id="country_update" name="country_update">
+                    <script>$(fillCountriesUpdate());</script>
+                </select>
             </td>
             <td>
-                <label for="city"></label>
-                <input class="form-control input-sm" id="city" type="text" name='city'
-                       value="<c:out value="${user.contacts.city}"></c:out>">
+                <label for="city_update"></label>
+                <select id="city_update" name="city_update">
+                    <script>
+                        fillCitiesUpdate($('#country_update').val());
+                        $('#country_update').change(function () {
+                            fillCitiesUpdate($('#country_update').val());
+                        });
+                    </script>
+                </select>
             </td>
             <td>
                 <input type="hidden" name="id" value="<c:out value="${user.id}"></c:out>">
                 <input type="hidden" name="action" value="update">
-                <button type='submit'> Save Changes</button>
+                <button type='button' onclick="update()"> Save Changes</button>
             </td>
         </form>
         </tbody>

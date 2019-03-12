@@ -23,8 +23,8 @@ public class Update implements Action {
                 new Contacts(
                         map.get("name")[0],
                         map.get("email")[0],
-                        map.get("country")[0],
-                        map.get("city")[0]
+                        map.get("country_update")[0],
+                        map.get("city_update")[0]
                 )
         );
         validateService.update(user, updatedUser);

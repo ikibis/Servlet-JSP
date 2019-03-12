@@ -5,23 +5,23 @@ import ru.kibis.servlets.model.User;
 import java.util.List;
 
 public interface Validate {
-    public boolean add(User user);
+    boolean add(User user);
 
-    public List<User> findAll();
+    List<User> findAll();
 
-    public boolean update(User user, User udatedUser);
+    boolean update(User user, User udatedUser);
 
-    public void delete(int id);
+    void delete(int id);
 
     User findById(int id);
 
     User isCredentional(String login, String password);
 
-    public void clean();
+    void clean();
 
-    public User findByLogin(String login);
+    User findByLogin(String login);
 
-    public List<String> findCountries();
+    List<String> findCountries();
 
-    public List<String> findCities(String country);
+    List<String> findCities(String country);
 }

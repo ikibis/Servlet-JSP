@@ -25,7 +25,7 @@
     </h2>
     <br/>
     <c:if test="${error != ''}">
-        <div style="background-color: red">
+        <div class="alert alert-warning">
             <c:out value="${error}"/>
         </div>
     </c:if>
