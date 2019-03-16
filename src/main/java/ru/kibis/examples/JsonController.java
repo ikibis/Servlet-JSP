@@ -30,7 +30,6 @@ public class JsonController extends HttpServlet {
         ObjectMapper mapper = new ObjectMapper();
         User user = mapper.readValue(new String(buffer), User.class);
         map.put(id.getAndIncrement(), user);
-        System.out.println(map.size() + " " + id.get());
         doGet(req, resp);
     }
 }

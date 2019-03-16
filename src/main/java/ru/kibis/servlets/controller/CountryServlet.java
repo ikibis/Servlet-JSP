@@ -10,9 +10,23 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * Сервлет для списка стран
+ */
 public class CountryServlet extends HttpServlet {
+    /**
+     * Сервис валидации
+     */
     private final Validate validateService = ValidateService.getInstance();
 
+    /**
+     * Метод POST формирует список стран, путем вызова метода findCountries сервиса валидалиции,
+     * и передает в ответ список стран в формате JSON
+     *
+     * @param req  HTTP запрос
+     * @param resp ответ
+     * @throws IOException
+     */
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         ObjectMapper mapper = new ObjectMapper();

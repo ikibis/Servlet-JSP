@@ -40,7 +40,6 @@ public class DbStore implements Store {
              PreparedStatement st = connection.prepareStatement(
                      "create table if not exists users ( "
                              + "id serial primary key, "
-                             + "user_id varchar(2000), "
                              + "name varchar(2000), "
                              + "login varchar(2000), "
                              + "password varchar(2000), "
@@ -62,17 +61,16 @@ public class DbStore implements Store {
         if (this.duplicateCheck(user) == 0) {
             try (Connection connection = SOURCE.getConnection();
                  PreparedStatement st = connection.prepareStatement(
-                         "insert into users(user_id, name, login, password, email, date, role, country, city) values(?, ?, ?, ?, ?, ?, ?, ?, ?);"
+                         "insert into users(name, login, password, email, date, role, country, city) values(?, ?, ?, ?, ?, ?, ?, ?);"
                  )) {
-                st.setString(1, String.valueOf(user.getId()));
-                st.setString(2, user.getContacts().getName());
-                st.setString(3, user.getLogin());
-                st.setString(4, user.getPassword());
-                st.setString(5, user.getContacts().getEmail());
-                st.setString(6, user.getCreateDate());
-                st.setString(7, user.getRole());
-                st.setString(8, user.getContacts().getCountry());
-                st.setString(9, user.getContacts().getCity());
+                st.setString(1, user.getContacts().getName());
+                st.setString(2, user.getLogin());
+                st.setString(3, user.getPassword());
+                st.setString(4, user.getContacts().getEmail());
+                st.setString(5, user.getCreateDate());
+                st.setString(6, user.getRole());
+                st.setString(7, user.getContacts().getCountry());
+                st.setString(8, user.getContacts().getCity());
                 st.executeUpdate();
                 result = true;
             } catch (SQLException e) {
@@ -88,7 +86,7 @@ public class DbStore implements Store {
         if (this.duplicateCheck(updatedUser) <= 1) {
             try (Connection connection = SOURCE.getConnection();
                  PreparedStatement st = connection.prepareStatement(
-                         "update users set name = ?, login = ?, password = ?, email = ?, role = ?, country = ?, city = ? WHERE user_id = ?;"
+                         "update users set name = ?, login = ?, password = ?, email = ?, role = ?, country = ?, city = ? WHERE id = ?;"
                  )) {
                 st.setString(1, updatedUser.getContacts().getName());
                 st.setString(2, updatedUser.getLogin());
@@ -97,7 +95,7 @@ public class DbStore implements Store {
                 st.setString(5, updatedUser.getRole());
                 st.setString(6, updatedUser.getContacts().getCountry());
                 st.setString(7, updatedUser.getContacts().getCity());
-                st.setString(8, String.valueOf(user.getId()));
+                st.setString(8, String.valueOf(this.getId(user)));
                 st.executeUpdate();
                 result = true;
             } catch (SQLException e) {
@@ -112,9 +110,9 @@ public class DbStore implements Store {
         boolean result = true;
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement st = connection.prepareStatement(
-                     "delete from users where user_id = ?;"
+                     "delete from users where users.id = ?;"
              )) {
-            st.setString(1, String.valueOf(user.getId()));
+            st.setInt(1, this.getId(user));
             st.executeUpdate();
         } catch (SQLException e) {
             result = false;
@@ -133,7 +131,7 @@ public class DbStore implements Store {
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 users.add(new User(
-                        rs.getString("user_id"),
+                        rs.getString("id"),
                         rs.getString("login"),
                         rs.getString("password"),
                         rs.getString("date"),
@@ -157,13 +155,13 @@ public class DbStore implements Store {
         User result = null;
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement st = connection.prepareStatement(
-                     "select * from users where user_id = ?;"
+                     "select * from users where id = ?;"
              )) {
-            st.setString(1, String.valueOf(id));
+            st.setInt(1, id);
             ResultSet rs = st.executeQuery();
             rs.next();
             result = new User(
-                    rs.getString("user_id"),
+                    rs.getString("id"),
                     rs.getString("login"),
                     rs.getString("password"),
                     rs.getString("date"),
@@ -181,11 +179,28 @@ public class DbStore implements Store {
         return result;
     }
 
+    public int getId(User user) {
+        int result = -1;
+        try (Connection connection = SOURCE.getConnection();
+             PreparedStatement st = connection.prepareStatement(
+                     "select id from users where login = ? and email = ?;"
+             )) {
+            st.setString(1, user.getLogin());
+            st.setString(2, user.getContacts().getEmail());
+            ResultSet rs = st.executeQuery();
+            rs.next();
+            result = Integer.valueOf(rs.getString("id"));
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+        return result;
+    }
+
     private int duplicateCheck(User user) {
         int count = 0;
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement users = connection.prepareStatement(
-                     "select name from users where users.login = ? OR users.email = ?;"
+                     "select name from users where login = ? OR email = ?;"
              )) {
             users.setString(1, user.getLogin());
             users.setString(2, user.getContacts().getEmail());

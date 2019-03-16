@@ -9,8 +9,19 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Класс реализует интерфейс Action для изменения существующего пользователя
+ */
 public class Update implements Action {
-
+    /**
+     * Метод извлекает из HTTP запроса id пользователя,
+     * через сервис валидации находит пользователя user по данному id,
+     * создает новый объект updatedUser,
+     * передает user и updatedUser в сервис валидации, для проверки и последующего изменения в методе update
+     *
+     * @param validateService выбранный сервис валидации
+     * @param req             HTTP запрос
+     */
     @Override
     public void doAction(Validate validateService, HttpServletRequest req) {
         final Map<String, String[]> map = req.getParameterMap();

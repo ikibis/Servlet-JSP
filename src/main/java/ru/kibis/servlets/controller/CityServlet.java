@@ -11,9 +11,24 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+/**
+ * Сервлет для списка городов
+ */
 public class CityServlet extends HttpServlet {
+    /**
+     * Сервис валидации
+     */
     private final Validate validateService = ValidateService.getInstance();
 
+    /**
+     * Метод POST извлекает из HTTP запроса параметр "country",
+     * формирует список городов для выбранной страны, путем вызова метода findCities сервиса валидалиции,
+     * и передает в ответ список городов в формате JSON
+     *
+     * @param req  HTTP запрос
+     * @param resp ответ
+     * @throws IOException
+     */
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String country = req.getParameter("country");

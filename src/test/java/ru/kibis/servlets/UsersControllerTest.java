@@ -91,8 +91,8 @@ public class UsersControllerTest {
         mapToUpdate.put("password", new String[]{"1224New"});
         mapToUpdate.put("email", new String[]{"ilya@ilyaNew"});
         mapToUpdate.put("role", new String[]{"USER"});
-        mapToUpdate.put("country", new String[]{"Russia"});
-        mapToUpdate.put("city", new String[]{"spb"});
+        mapToUpdate.put("country_update", new String[]{"Russia"});
+        mapToUpdate.put("city_update", new String[]{"spb"});
         when(req.getParameterMap()).thenReturn(mapToUpdate);
         new UserUpdateServlet().doPost(req, resp);
         User user = validate.findAll().iterator().next();

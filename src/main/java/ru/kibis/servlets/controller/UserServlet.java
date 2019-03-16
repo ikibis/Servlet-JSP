@@ -13,10 +13,27 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * Основной сервлет
+ */
 public class UserServlet extends HttpServlet {
+    /**
+     * Фабрика для действий пользователя
+     */
     private ActionFactory factory = ActionFactory.getInstance();
+    /**
+     * Сервис валидации
+     */
     private final Validate validateService = ValidateService.getInstance();
 
+    /**
+     * Метод GET помещает список пользователей в атрибут запроса,
+     * осуществляет переадресацию на основную JSP страницу вывода всех пользователей.
+     *
+     * @param req  HTTP запрос
+     * @param resp ответ
+     * @throws IOException
+     */
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         resp.setContentType("text/html");
@@ -24,6 +41,19 @@ public class UserServlet extends HttpServlet {
         req.getRequestDispatcher("/WEB-INF/view/users.jsp").forward(req, resp);
     }
 
+    /**
+     * Метод POST (удаление пользователя) извлекает из параметров HTTP запроса "id",
+     * с помощью сервиса валидации ищет пользователя с таким "id".
+     * Если пользователь существует, то запрашиваются атрибуты сессии "login" и "role".
+     * И происходит проверка наличия прав на осуществление операции удаления.
+     * Если прав хватает, то для фабрики действий вызывается метод action на удаление пользователя.
+     * Если прав не хватает, то в атрибут запроса передается сообщение об ошибке
+     * происходит вызов метода doGet данного сервлета.
+     *
+     * @param req  HTTP запрос
+     * @param resp ответ
+     * @throws IOException
+     */
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         resp.setContentType("text/html");
