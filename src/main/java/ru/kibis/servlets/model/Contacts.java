@@ -1,11 +1,22 @@
 package ru.kibis.servlets.model;
 
+/**
+ * Класс для контактов пользователя
+ */
 public class Contacts {
     private String name;
     private String email;
     private String country;
     private String city;
 
+    /**
+     * Конструктор для объекта контакты пользователя
+     *
+     * @param name    имя пользователя
+     * @param email   адрес электронной почты
+     * @param country страна пользователя
+     * @param city    город пользователя
+     */
     public Contacts(String name, String email, String country, String city) {
         this.name = name;
         this.email = email;
