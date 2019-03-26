@@ -46,7 +46,6 @@ public interface Store {
      * @param id пользователя
      * @return Объект User
      */
-
     User findById(int id);
 
     /**

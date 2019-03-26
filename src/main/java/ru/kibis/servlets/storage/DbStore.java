@@ -230,7 +230,12 @@ public class DbStore implements Store {
         }
         return result;
     }
-
+    /**
+     * Метод для поиска пользователя по id
+     *
+     * @param user Объект User
+     * @return id пользователя
+     */
     public int getId(User user) {
         int result = -1;
         try (Connection connection = SOURCE.getConnection();

@@ -12,11 +12,6 @@ import java.io.IOException;
  */
 public class AuthFilter implements Filter {
 
-    @Override
-    public void init(FilterConfig filterConfig) {
-
-    }
-
     /**
      * Метод, для фильтрации запросов пользователя,
      * проверяет залогинился ли пользователь в системе,
@@ -41,10 +36,5 @@ public class AuthFilter implements Filter {
             }
             filterChain.doFilter(req, resp);
         }
-    }
-
-    @Override
-    public void destroy() {
-
     }
 }
