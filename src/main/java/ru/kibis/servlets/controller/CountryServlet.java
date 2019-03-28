@@ -25,7 +25,6 @@ public class CountryServlet extends HttpServlet {
      *
      * @param req  HTTP запрос
      * @param resp ответ
-     * @throws IOException
      */
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {

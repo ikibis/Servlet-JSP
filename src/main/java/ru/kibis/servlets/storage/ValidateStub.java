@@ -173,8 +173,8 @@ public class ValidateStub implements Validate {
     /**
      * Метод для проверки залогинился ли пользователь в системе
      *
-     * @param login
-     * @param password
+     * @param login Логин пользователя
+     * @param password Пароль пользователя
      * @return объект User
      */
     @Override

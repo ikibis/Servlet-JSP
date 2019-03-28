@@ -15,7 +15,6 @@ public class UserExitServlet extends HttpServlet {
      *
      * @param req  HTTP запрос
      * @param resp ответ
-     * @throws IOException
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -28,7 +27,6 @@ public class UserExitServlet extends HttpServlet {
      *
      * @param req  HTTP запрос
      * @param resp ответ
-     * @throws IOException
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {

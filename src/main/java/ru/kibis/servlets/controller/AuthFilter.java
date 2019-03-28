@@ -19,9 +19,6 @@ public class AuthFilter implements Filter {
      *
      * @param req         HTTP запрос
      * @param resp        ответ
-     * @param filterChain
-     * @throws IOException
-     * @throws ServletException
      */
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain filterChain) throws IOException, ServletException {

@@ -25,7 +25,6 @@ public class UserLoginServlet extends HttpServlet {
      *
      * @param req  HTTP запрос
      * @param resp ответ
-     * @throws IOException
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
@@ -43,7 +42,6 @@ public class UserLoginServlet extends HttpServlet {
      *
      * @param req  HTTP запрос
      * @param resp ответ
-     * @throws IOException
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {

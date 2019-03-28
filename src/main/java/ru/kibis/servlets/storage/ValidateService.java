@@ -108,8 +108,8 @@ public class ValidateService implements Validate {
     /**
      * Метод для проверки залогинился ли пользователь в системе
      *
-     * @param login
-     * @param password
+     * @param login Логин пользователя
+     * @param password Пароль пользователя
      * @return объект User
      */
     public User isCredentional(String login, String password) {
@@ -134,7 +134,7 @@ public class ValidateService implements Validate {
     /**
      * Метод для поиска пользователя по логину
      *
-     * @param login
+     * @param login Логин пользователя
      * @return объект User
      */
     @Override
