@@ -1,3 +1,9 @@
+/**
+ * Функция проверяет все ли поля формы ввел пользователь.
+ * Если поле не заполнено, ввыводит сообщение с просьбой заполнить поле.
+ * @returns {boolean}
+ */
+
 function validate() {
     let result = true;
     let name = $('#name').val();
@@ -33,6 +39,11 @@ function validate() {
     return result;
 }
 
+/**
+ * Функция проверяет все ли поля формы ввел пользователь.
+ * Если поле не заполнено, ввыводит сообщение с просьбой заполнить поле.
+ * @returns {boolean}
+ */
 function validateLogin() {
     let result = true;
     let login = $('#login').val();
@@ -48,6 +59,11 @@ function validateLogin() {
     return result;
 }
 
+/**
+ * Функция для заполнения выпадающего списка стран в форме создания нового пользователя.
+ * Отправляет POST запрос в CountryServlet.
+ * В ответ получает JSON массив с названиями стран и заполняет ими форму #country
+ */
 function fillCountriesCreate() {
     $.ajax({
         url: '/country',
@@ -65,6 +81,12 @@ function fillCountriesCreate() {
     });
 }
 
+/**
+ * Функция для заполнения выпадающего списка городов в форме создания нового пользователя.
+ * Отправляет POST запрос содержащий название страны в CityServlet.
+ * В ответ получает JSON массив с названиями городов и заполняет ими форму #city
+ * @param country название страны для которой запрашиваются города
+ */
 function fillCitiesCreate(country) {
     $.ajax({
         url: '/city',
@@ -83,6 +105,11 @@ function fillCitiesCreate(country) {
     });
 }
 
+/**
+ * Функция создания нового пользователя.
+ * Осуществляет проверку заполнения полей вызовом validate().
+ * Если проверка прошла успешно, то отправляет форму #create_user
+ */
 function create() {
     if (validate() == true) {
         $('#create_user').submit();
@@ -90,7 +117,11 @@ function create() {
         false;
     }
 }
-
+/**
+ * Функция для заполнения выпадающего списка стран в форме обновления существующего пользователя.
+ * Отправляет POST запрос в CountryServlet.
+ * В ответ получает JSON массив с названиями стран и заполняет ими форму #country_update
+ */
 function fillCountriesUpdate() {
     $.ajax({
         url: '/country',
@@ -107,7 +138,12 @@ function fillCountriesUpdate() {
         }
     });
 }
-
+/**
+ * Функция для заполнения выпадающего списка городов в форме обновления существующего пользователя.
+ * Отправляет POST запрос содержащий название страны в CityServlet.
+ * В ответ получает JSON массив с названиями городов и заполняет ими форму #city_update
+ * @param country название страны для которой запрашиваются города
+ */
 function fillCitiesUpdate(country) {
     $.ajax({
         url: '/city',
@@ -125,7 +161,11 @@ function fillCitiesUpdate(country) {
         }
     });
 }
-
+/**
+ * Функция обновления существующего пользователя.
+ * Осуществляет проверку заполнения полей вызовом validate().
+ * Если проверка прошла успешно, то отправляет форму #update_user
+ */
 function update() {
     if (validate() == true) {
         $('#update_user').submit();

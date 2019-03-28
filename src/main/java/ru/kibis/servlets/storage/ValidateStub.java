@@ -7,18 +7,40 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Класс заглушка слоя валидации. Реализует интерфейс Validate.
+ * Эмулирует запись в БД, пишет в HashMap.
+ * Используется только для тестов.
+ */
 public class ValidateStub implements Validate {
+    /**
+     * HashMap для хранения записей
+     */
     private final Map<Integer, User> store = new HashMap<>();
+    /**
+     * Эмулирует id записи в БД.
+     * счетчик id записей
+     */
     private int ids = 0;
 
+    /**
+     * Элемент паттерна синглтон
+     */
     private static class Holder {
         private static final Validate INSTANCE = new ValidateStub();
     }
-
+    /**
+     * Элемент паттерна синглтон
+     */
     public static Validate getInstance() {
         return Holder.INSTANCE;
     }
-
+    /**
+     * Метод добавления нового пользователя в хранилище
+     *
+     * @param user объект новый пользователь
+     * @return true в случае удачного добавления и false если добавление не удалось выполнить
+     */
     @Override
     public boolean add(User user) {
         boolean result = false;
@@ -29,7 +51,13 @@ public class ValidateStub implements Validate {
         }
         return result;
     }
-
+    /**
+     * Метод изменения существующего пользователя в хранилище
+     *
+     * @param user        объект существующий пользователь
+     * @param updatedUser объект пользователь с обновленными полями
+     * @return true в случае удачного изменения и false если изменение не удалось выполнить
+     */
     @Override
     public boolean update(User user, User updatedUser) {
         boolean result = false;
@@ -56,14 +84,22 @@ public class ValidateStub implements Validate {
         }
         return result;
     }
-
+    /**
+     * Метод удаления существующего пользователя из хранилища
+     *
+     * @param id айди пользователя
+     */
     @Override
     public void delete(int id) {
         if (this.findById(id) != null) {
             this.store.remove(id);
         }
     }
-
+    /**
+     * Метод для поиска всех пользователей
+     *
+     * @return Список объектов User
+     */
     @Override
     public List<User> findAll() {
         return new ArrayList<>(this.store.values());
@@ -80,17 +116,31 @@ public class ValidateStub implements Validate {
         }
         return result;
     }
-
+    /**
+     * Метод для поиска всех стран
+     *
+     * @return Список стран
+     */
     @Override
     public List<String> findCountries() {
         return null;
     }
-
+    /**
+     * Метод для поиска всех городов для указанной страны
+     *
+     * @param country Страна
+     * @return Список городов
+     */
     @Override
     public List<String> findCities(String country) {
         return null;
     }
-
+    /**
+     * Метод для поиска пользователя по email
+     *
+     * @param email пользователя
+     * @return Объект User
+     */
     public User findByEmail(String email) {
         User result = null;
         for (User userSearched : this.store.values()) {
@@ -103,7 +153,12 @@ public class ValidateStub implements Validate {
         return result;
     }
 
-
+    /**
+     * Метод для поиска пользователя по id
+     *
+     * @param id пользователя
+     * @return Объект User
+     */
     public User findById(int id) {
         User result = null;
         for (User userSearched : this.store.values()) {
@@ -115,12 +170,21 @@ public class ValidateStub implements Validate {
         }
         return result;
     }
-
+    /**
+     * Метод для проверки залогинился ли пользователь в системе
+     *
+     * @param login
+     * @param password
+     * @return объект User
+     */
     @Override
     public User isCredentional(String login, String password) {
         return null;
     }
-
+    /**
+     * Метод для тестирования сервлетов.
+     * Исрользуется для очистки store HashMap, обнуляет счетчик id записей
+     */
     public void clean() {
         this.store.clear();
         this.ids = 0;
