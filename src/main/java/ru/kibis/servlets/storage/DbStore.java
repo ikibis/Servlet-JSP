@@ -130,7 +130,7 @@ public class DbStore implements Store {
                 st.setString(5, updatedUser.getRole());
                 st.setString(6, updatedUser.getContacts().getCountry());
                 st.setString(7, updatedUser.getContacts().getCity());
-                st.setString(8, String.valueOf(this.getId(user)));
+                st.setInt(8, this.getId(user));
                 st.executeUpdate();
                 result = true;
             } catch (SQLException e) {
@@ -275,7 +275,6 @@ public class DbStore implements Store {
         } catch (SQLException e) {
             LOGGER.error(e.getMessage(), e);
         }
-        System.out.println(count);
         return count;
     }
 

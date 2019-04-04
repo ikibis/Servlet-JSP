@@ -79,7 +79,6 @@ public class UsersControllerTest {
         assertThat(user.getPassword(), is("1224"));
         assertThat(user.getContacts().getEmail(), is("ilya@ilya"));
         assertThat(user.getRole(), is("ADMIN"));
-        System.out.println("whenAddUserThenStoreIt");
     }
 
     @Test
