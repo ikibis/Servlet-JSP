@@ -18,19 +18,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="topleft">
-    <h2>Users</h2>
-    <p>This table contains all added users:</p>
-    <form action="${pageContext.servletContext.contextPath}/user_create_servlet" method="get">
-        <button type="submit"> Add User</button>
-    </form>
-
-    <form action="${pageContext.servletContext.contextPath}/exit" method="post">
-        <button type="submit"> Exit</button>
-    </form>
-</div>
-
-
 <br/>
 <c:if test="${error != ''}">
     <div div class="center" style="background-color: red">
@@ -40,6 +27,18 @@
 <br/>
 <br/>
 <div class="container">
+    <h2>You are logged in as : "${sessionScope.get("login")}"</h2>
+    <br/>
+    <h2>Users</h2>
+    <p>This table contains all added users:</p>
+    <br/>
+    <form action="${pageContext.servletContext.contextPath}/user_create_servlet" method="get">
+        <button type="submit"> Add User</button>
+    </form>
+
+    <form action="${pageContext.servletContext.contextPath}/exit" method="post">
+        <button type="submit"> Exit</button>
+    </form>
     <table class="table table-hover">
         <thead>
         <tr>

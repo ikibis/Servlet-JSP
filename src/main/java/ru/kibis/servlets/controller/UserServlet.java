@@ -63,8 +63,12 @@ public class UserServlet extends HttpServlet {
             String login = (String) session.getAttribute("login");
             int userRoleRate = Role.valueOf(role).ordinal();
             int userToUpdateRoleRate = Role.valueOf(user.getRole()).ordinal();
-            if (userRoleRate < userToUpdateRoleRate || login.equals(user.getLogin())) {
+            boolean deleteCurrent = login.equals(user.getLogin());
+            if (userRoleRate < userToUpdateRoleRate || deleteCurrent) {
                 factory.action("delete", req);
+                if (deleteCurrent) {
+                    session.invalidate();
+                }
                 doGet(req, resp);
             } else {
                 req.setAttribute("error", "Not enough rights");
